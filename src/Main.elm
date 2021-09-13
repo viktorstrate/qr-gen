@@ -1,9 +1,14 @@
 module Main exposing (..)
 
+-- import Html exposing (..)
+-- import Html.Attributes as Attrs
+-- import Html.Events exposing (onInput)
+
 import Browser
-import Html exposing (..)
-import Html.Attributes as Attrs
-import Html.Events exposing (onInput)
+import Element as El exposing (Element)
+import Element.Input as Input
+import Html exposing (Html)
+import Html.Attributes
 import QRCode
 import Url
 
@@ -96,140 +101,97 @@ update msg model =
 
 view : Model -> Html Msg
 view model =
-    div []
-        [ text <| "Selected QR type: " ++ (getQRTypeValue model.qrType).value
-        , formView model
-        , qrCodeImage model
-        ]
+    El.layout [] <|
+        El.column [ El.paddingXY 48 24 ]
+            [ formView model
+            , qrCodeImage model
+            ]
 
 
-formView : Model -> Html Msg
+formView : Model -> Element Msg
 formView model =
-    Html.form []
+    El.column []
         [ qrErrorCorrectionSelect model
         , qrTypeSelect model
-        , div [] (qrTypeOptions model)
+        , qrTypeOptions model
         ]
 
 
-valueToECC : String -> QRCode.ErrorCorrection
-valueToECC val =
-    case val of
-        "low" ->
-            QRCode.Low
-
-        "medium" ->
-            QRCode.Medium
-
-        "quartile" ->
-            QRCode.Quartile
-
-        "high" ->
-            QRCode.High
-
-        _ ->
-            QRCode.Quartile
-
-
-qrErrorCorrectionSelect : Model -> Html Msg
+qrErrorCorrectionSelect : Model -> Element Msg
 qrErrorCorrectionSelect model =
-    div []
-        [ Html.label []
-            [ Html.span [] [ text "Error correction" ]
-            , Html.select
-                [ onInput <| ChangeErrorCorrection << valueToECC
+    El.el [ El.paddingXY 0 12 ] <|
+        Input.radio
+            [ El.padding 8 ]
+            { onChange = ChangeErrorCorrection
+            , selected = Just model.errorCorrection
+            , label = Input.labelAbove [] (El.text "Error correction")
+            , options =
+                [ Input.option QRCode.Low (El.text "Low (7% redundancy)")
+                , Input.option QRCode.Medium (El.text "Medium (15% redundancy)")
+                , Input.option QRCode.Quartile (El.text "Quartile (25% redundancy)")
+                , Input.option QRCode.High (El.text "High (30% redundancy)")
                 ]
-                [ Html.option [ Attrs.value "low", Attrs.selected (model.errorCorrection == QRCode.Low) ] [ text "Low (7% redundancy)" ]
-                , Html.option [ Attrs.value "medium", Attrs.selected (model.errorCorrection == QRCode.Medium) ] [ text "Medium (15% redundancy)" ]
-                , Html.option [ Attrs.value "quartile", Attrs.selected (model.errorCorrection == QRCode.Quartile) ] [ text "Quartile (25% redundancy)" ]
-                , Html.option [ Attrs.value "high", Attrs.selected (model.errorCorrection == QRCode.High) ] [ text "High (30% redundancy)" ]
-                ]
-            ]
-        ]
+            }
 
 
-qrTypeSelect : Model -> Html Msg
+qrTypeSelect : Model -> Element Msg
 qrTypeSelect model =
-    div []
-        (qrTypes
-            |> List.map
-                (\qrType ->
-                    Html.label []
-                        [ Html.input
-                            [ Attrs.value (getQRTypeValue qrType).value
-                            , Attrs.name "qr_type"
-                            , Attrs.type_ "radio"
-                            , Attrs.checked <| (getQRTypeValue qrType).value == (getQRTypeValue model.qrType).value
-                            , onInput (ChangeQRType << valueToEmptyQRType)
-                            ]
-                            []
-                        , Html.span [] [ text (getQRTypeValue qrType).label ]
-                        ]
-                )
-        )
+    El.el [ El.paddingXY 0 12 ] <|
+        Input.radioRow
+            [ El.spacing 12, El.paddingXY 0 8 ]
+            { onChange = ChangeQRType
+            , selected = Just model.qrType
+            , label = Input.labelAbove [] (El.text "QR type")
+            , options = qrTypes |> List.map (\qrType -> Input.option qrType (El.text (getQRTypeValue qrType).label))
+            }
 
 
-qrTypeOptions : Model -> List (Html Msg)
+qrTypeOptions : Model -> Element Msg
 qrTypeOptions model =
     case model.qrType of
         QRText value ->
-            [ Html.label []
-                [ Html.span [] [ text "Text" ]
-                , Html.input
-                    [ Attrs.value value
-                    , onInput (ChangeQRType << QRText)
-                    , Attrs.name "qr_text_value"
-                    ]
-                    []
+            El.row []
+                [ Input.multiline [ El.width (El.px 400) ]
+                    { onChange = ChangeQRType << QRText
+                    , text = value
+                    , placeholder = Nothing
+                    , label = Input.labelAbove [] (El.text "Text")
+                    , spellcheck = True
+                    }
                 ]
-            ]
 
         QRUrl url ->
-            [ Html.label []
-                [ Html.span [] [ text "URL" ]
-                , Html.input
-                    [ Attrs.value url
-                    , onInput (ChangeQRType << QRUrl)
-                    , Attrs.name "qr_url_value"
-                    , Attrs.type_ "url"
-                    , Attrs.placeholder "https://example.com"
-                    ]
-                    []
+            El.row []
+                [ Input.text []
+                    { onChange = ChangeQRType << QRUrl
+                    , text = url
+                    , placeholder = Just <| Input.placeholder [] (El.text "https://example.com")
+                    , label = Input.labelAbove [] (El.text "URL")
+                    }
                 ]
-            ]
 
         QREmail address subject body ->
-            [ Html.label []
-                [ Html.span [] [ text "Email address" ]
-                , Html.input
-                    [ Attrs.value address
-                    , onInput (ChangeQRType << (\val -> QREmail val subject body))
-                    , Attrs.name "qr_email_address"
-                    , Attrs.type_ "email"
-                    , Attrs.placeholder "name@example.com"
-                    ]
-                    []
+            El.column [ El.spacingXY 0 12 ]
+                [ Input.text []
+                    { onChange = ChangeQRType << (\val -> QREmail val subject body)
+                    , text = address
+                    , placeholder = Just <| Input.placeholder [] (El.text "name@example.co")
+                    , label = Input.labelAbove [] (El.text "Email address")
+                    }
+                , Input.text []
+                    { onChange = ChangeQRType << (\val -> QREmail address val body)
+                    , text = subject
+                    , placeholder = Nothing
+                    , label = Input.labelAbove [] (El.text "Subject")
+                    }
+                , Input.multiline [ El.width (El.px 400) ]
+                    { onChange = ChangeQRType << (\val -> QREmail address subject val)
+                    , text = body
+                    , placeholder = Nothing
+                    , label = Input.labelAbove [] (El.text "Body")
+                    , spellcheck = True
+                    }
                 ]
-            , Html.label []
-                [ Html.span [] [ text "Subject" ]
-                , Html.input
-                    [ Attrs.value subject
-                    , onInput (ChangeQRType << (\val -> QREmail address val body))
-                    , Attrs.name "qr_email_subject"
-                    , Attrs.type_ "text"
-                    ]
-                    []
-                ]
-            , Html.label []
-                [ Html.span [] [ text "Body" ]
-                , Html.textarea
-                    [ Attrs.value body
-                    , onInput (ChangeQRType << (\val -> QREmail address subject val))
-                    , Attrs.name "qr_email_body"
-                    ]
-                    []
-                ]
-            ]
 
 
 encodeQRType : QRType -> String
@@ -245,15 +207,16 @@ encodeQRType qrType =
             "mailto:" ++ Url.percentEncode address ++ "?subject=" ++ Url.percentEncode subject ++ "&body=" ++ Url.percentEncode message
 
 
-qrCodeImage : Model -> Html Msg
+qrCodeImage : Model -> Element Msg
 qrCodeImage model =
     case QRCode.fromStringWith model.errorCorrection (encodeQRType model.qrType) of
         Err _ ->
-            text "Something went wrong"
+            El.text "Something went wrong"
 
         Ok code ->
-            QRCode.toSvg
-                [ Attrs.width 200
-                , Attrs.height 200
-                ]
-                code
+            El.html <|
+                QRCode.toSvg
+                    [ Html.Attributes.width 200
+                    , Html.Attributes.height 200
+                    ]
+                    code
