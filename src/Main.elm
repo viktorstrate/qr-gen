@@ -160,7 +160,7 @@ update msg model =
 
 view : Model -> Browser.Document Msg
 view model =
-    { title = ""
+    { title = "QR Code Generator"
     , body =
         [ El.layout [ El.paddingXY 48 24 ] <|
             El.row [ El.spacing 32 ]
