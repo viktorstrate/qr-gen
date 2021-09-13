@@ -5,17 +5,20 @@ module Main exposing (..)
 -- import Html.Events exposing (onInput)
 
 import Browser
+import Bytes exposing (Bytes)
+import Bytes.Encode
 import Element as El exposing (Element)
+import Element.Font as Font
 import Element.Input as Input
-import Html exposing (Html)
+import File.Download as Download
 import Html.Attributes
-import QRCode
+import Image
+import QRCode exposing (defaultImageOptions)
 import Url
 
 
-main : Program () Model Msg
 main =
-    Browser.sandbox { init = init, update = update, view = view }
+    Browser.document { init = \() -> init, update = update, view = view, subscriptions = \_ -> Sub.none }
 
 
 type alias EmailAddress =
@@ -122,32 +125,50 @@ type alias Model =
 type Msg
     = ChangeQRType QRType
     | ChangeErrorCorrection QRCode.ErrorCorrection
+    | DownloadQRCodeAsPNG
+    | NoOp
 
 
-init : Model
+
+-- init : Model
+
+
+init : ( Model, Cmd Msg )
 init =
-    { qrType = QRText ""
-    , errorCorrection = QRCode.Quartile
-    }
+    ( { qrType = QRText ""
+      , errorCorrection = QRCode.Quartile
+      }
+    , Cmd.none
+    )
 
 
-update : Msg -> Model -> Model
+update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         ChangeQRType newType ->
-            { model | qrType = newType }
+            ( { model | qrType = newType }, Cmd.none )
 
         ChangeErrorCorrection ecc ->
-            { model | errorCorrection = ecc }
+            ( { model | errorCorrection = ecc }, Cmd.none )
+
+        DownloadQRCodeAsPNG ->
+            ( model, Download.bytes "qrcode.png" "image/png" (generateQRCodePngUrl model) )
+
+        NoOp ->
+            ( model, Cmd.none )
 
 
-view : Model -> Html Msg
+view : Model -> Browser.Document Msg
 view model =
-    El.layout [ El.paddingXY 48 24 ] <|
-        El.row [ El.spacing 32 ]
-            [ formView model
-            , qrCodeImage model
-            ]
+    { title = ""
+    , body =
+        [ El.layout [ El.paddingXY 48 24 ] <|
+            El.row [ El.spacing 32 ]
+                [ formView model
+                , qrCodeImage model
+                ]
+        ]
+    }
 
 
 formView : Model -> Element Msg
@@ -216,7 +237,7 @@ qrTypeOptions model =
                 [ Input.text []
                     { onChange = ChangeQRType << (\val -> QREmail val subject body)
                     , text = address
-                    , placeholder = Just <| Input.placeholder [] (El.text "name@example.co")
+                    , placeholder = Just <| Input.placeholder [] (El.text "name@example.com")
                     , label = Input.labelAbove [] (El.text "Email address")
                     }
                 , Input.text []
@@ -334,6 +355,16 @@ encodeQRType qrType =
             "WIFI:" ++ formattedPasswordType ++ formattedSSID ++ formattedPassword ++ formattedHidden ++ ";"
 
 
+generateQRCodePngUrl : Model -> Bytes
+generateQRCodePngUrl model =
+    case QRCode.fromStringWith model.errorCorrection (encodeQRType model.qrType) of
+        Err _ ->
+            Bytes.Encode.encode <| Bytes.Encode.string "ERROR"
+
+        Ok code ->
+            Image.toPng (QRCode.toImageWithOptions { defaultImageOptions | moduleSize = 10 } code)
+
+
 qrCodeImage : Model -> Element Msg
 qrCodeImage model =
     case QRCode.fromStringWith model.errorCorrection (encodeQRType model.qrType) of
@@ -341,10 +372,17 @@ qrCodeImage model =
             El.text "Something went wrong"
 
         Ok code ->
-            El.el [ El.alignTop ] <|
-                El.html <|
-                    QRCode.toSvg
-                        [ Html.Attributes.width 200
-                        , Html.Attributes.height 200
-                        ]
-                        code
+            El.column [ El.alignTop, El.spacing 16 ]
+                [ El.el [] <|
+                    El.html <|
+                        QRCode.toSvgWithoutQuietZone
+                            [ Html.Attributes.width 200
+                            , Html.Attributes.height 200
+                            ]
+                            code
+                , Input.button
+                    [ Font.color (El.rgb 0.2 0.2 0.8) ]
+                    { onPress = Just DownloadQRCodeAsPNG
+                    , label = El.text "Download PNG"
+                    }
+                ]
