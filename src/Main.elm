@@ -30,10 +30,46 @@ type alias EmailMessage =
     String
 
 
+type alias WifiSSID =
+    String
+
+
+type WifiPassword
+    = WPA String
+    | WEP String
+    | None
+
+
+type alias WifiHidden =
+    Bool
+
+
+clearWifiPassword : WifiPassword -> WifiPassword
+clearWifiPassword password =
+    case password of
+        WPA _ ->
+            WPA ""
+
+        WEP _ ->
+            WEP ""
+
+        None ->
+            None
+
+
 type QRType
     = QRText String
     | QRUrl String
     | QREmail EmailAddress EmailSubject EmailMessage
+    | QRWifi WifiSSID WifiPassword WifiHidden
+
+
+
+-- type QRTypeBase
+--     = QRBaseText
+--     | QRBaseUrl
+--     | QRBaseEmail
+--     | QRBaseWifi
 
 
 qrTypes : List QRType
@@ -41,34 +77,40 @@ qrTypes =
     [ QRText ""
     , QRUrl ""
     , QREmail "" "" ""
+    , QRWifi "" (WPA "") False
     ]
 
 
-type alias QRTypeValue =
-    { value : String
-    , label : String
-    }
-
-
-getQRTypeValue : QRType -> QRTypeValue
-getQRTypeValue qrType =
+getQRTypeLabel : QRType -> String
+getQRTypeLabel qrType =
     case qrType of
         QRText _ ->
-            QRTypeValue "text" "Text"
+            "Text"
 
         QRUrl _ ->
-            QRTypeValue "url" "URL"
+            "URL"
 
         QREmail _ _ _ ->
-            QRTypeValue "email" "Email"
+            "Email"
+
+        QRWifi _ _ _ ->
+            "Wifi"
 
 
-valueToEmptyQRType : String -> QRType
-valueToEmptyQRType value =
-    qrTypes
-        |> List.filter (\x -> (getQRTypeValue x).value == value)
-        |> List.head
-        |> Maybe.withDefault (QRText "ERROR: value not found")
+clearQRType : QRType -> QRType
+clearQRType qrType =
+    case qrType of
+        QRText _ ->
+            QRText ""
+
+        QRUrl _ ->
+            QRUrl ""
+
+        QREmail _ _ _ ->
+            QREmail "" "" ""
+
+        QRWifi _ _ _ ->
+            QRWifi "" (WPA "") False
 
 
 type alias Model =
@@ -101,8 +143,8 @@ update msg model =
 
 view : Model -> Html Msg
 view model =
-    El.layout [] <|
-        El.column [ El.paddingXY 48 24 ]
+    El.layout [ El.paddingXY 48 24 ] <|
+        El.row [ El.spacing 32 ]
             [ formView model
             , qrCodeImage model
             ]
@@ -110,16 +152,19 @@ view model =
 
 formView : Model -> Element Msg
 formView model =
-    El.column []
+    El.row [ El.spacing 32, El.alignTop ]
         [ qrErrorCorrectionSelect model
-        , qrTypeSelect model
-        , qrTypeOptions model
+        , El.column
+            []
+            [ qrTypeSelect model
+            , El.el [ El.width (El.px 400) ] (qrTypeOptions model)
+            ]
         ]
 
 
 qrErrorCorrectionSelect : Model -> Element Msg
 qrErrorCorrectionSelect model =
-    El.el [ El.paddingXY 0 12 ] <|
+    El.el [ El.paddingXY 0 12, El.alignTop ] <|
         Input.radio
             [ El.padding 8 ]
             { onChange = ChangeErrorCorrection
@@ -136,13 +181,13 @@ qrErrorCorrectionSelect model =
 
 qrTypeSelect : Model -> Element Msg
 qrTypeSelect model =
-    El.el [ El.paddingXY 0 12 ] <|
+    El.el [ El.paddingXY 0 12, El.alignTop ] <|
         Input.radioRow
             [ El.spacing 12, El.paddingXY 0 8 ]
             { onChange = ChangeQRType
-            , selected = Just model.qrType
+            , selected = Just <| clearQRType model.qrType
             , label = Input.labelAbove [] (El.text "QR type")
-            , options = qrTypes |> List.map (\qrType -> Input.option qrType (El.text (getQRTypeValue qrType).label))
+            , options = qrTypes |> List.map (\qrType -> Input.option (clearQRType qrType) (El.text (getQRTypeLabel qrType)))
             }
 
 
@@ -150,28 +195,24 @@ qrTypeOptions : Model -> Element Msg
 qrTypeOptions model =
     case model.qrType of
         QRText value ->
-            El.row []
-                [ Input.multiline [ El.width (El.px 400) ]
-                    { onChange = ChangeQRType << QRText
-                    , text = value
-                    , placeholder = Nothing
-                    , label = Input.labelAbove [] (El.text "Text")
-                    , spellcheck = True
-                    }
-                ]
+            Input.multiline [ El.width El.fill ]
+                { onChange = ChangeQRType << QRText
+                , text = value
+                , placeholder = Nothing
+                , label = Input.labelAbove [] (El.text "Text")
+                , spellcheck = True
+                }
 
         QRUrl url ->
-            El.row []
-                [ Input.text []
-                    { onChange = ChangeQRType << QRUrl
-                    , text = url
-                    , placeholder = Just <| Input.placeholder [] (El.text "https://example.com")
-                    , label = Input.labelAbove [] (El.text "URL")
-                    }
-                ]
+            Input.text [ El.width El.fill ]
+                { onChange = ChangeQRType << QRUrl
+                , text = url
+                , placeholder = Just <| Input.placeholder [] (El.text "https://example.com")
+                , label = Input.labelAbove [] (El.text "URL")
+                }
 
         QREmail address subject body ->
-            El.column [ El.spacingXY 0 12 ]
+            El.column [ El.spacingXY 0 12, El.width El.fill ]
                 [ Input.text []
                     { onChange = ChangeQRType << (\val -> QREmail val subject body)
                     , text = address
@@ -184,12 +225,59 @@ qrTypeOptions model =
                     , placeholder = Nothing
                     , label = Input.labelAbove [] (El.text "Subject")
                     }
-                , Input.multiline [ El.width (El.px 400) ]
+                , Input.multiline []
                     { onChange = ChangeQRType << (\val -> QREmail address subject val)
                     , text = body
                     , placeholder = Nothing
                     , label = Input.labelAbove [] (El.text "Body")
                     , spellcheck = True
+                    }
+                ]
+
+        QRWifi ssid password hidden ->
+            El.column [ El.spacingXY 0 12, El.width El.fill ]
+                [ Input.text []
+                    { onChange = ChangeQRType << (\val -> QRWifi val password hidden)
+                    , text = ssid
+                    , placeholder = Just <| Input.placeholder [] (El.text "Wifi name")
+                    , label = Input.labelAbove [] (El.text "SSID")
+                    }
+                , Input.radioRow [ El.paddingXY 0 8, El.spacing 12 ]
+                    { onChange = ChangeQRType << (\pass -> QRWifi ssid pass hidden)
+                    , selected = Just <| clearWifiPassword password
+                    , label = Input.labelAbove [] (El.text "Password type")
+                    , options =
+                        [ Input.option (WPA "") (El.text "WPA/WPA2")
+                        , Input.option (WEP "") (El.text "WEP")
+                        , Input.option None (El.text "None")
+                        ]
+                    }
+                , case password of
+                    WPA wpa ->
+                        Input.newPassword []
+                            { onChange = ChangeQRType << (\val -> QRWifi ssid (WPA val) hidden)
+                            , text = wpa
+                            , placeholder = Just <| Input.placeholder [] (El.text "password")
+                            , label = Input.labelAbove [] (El.text "Password")
+                            , show = True
+                            }
+
+                    WEP wep ->
+                        Input.newPassword []
+                            { onChange = ChangeQRType << (\val -> QRWifi ssid (WPA val) hidden)
+                            , text = wep
+                            , placeholder = Just <| Input.placeholder [] (El.text "password")
+                            , label = Input.labelAbove [] (El.text "Password")
+                            , show = True
+                            }
+
+                    None ->
+                        El.none
+                , Input.checkbox [ El.paddingXY 0 12 ]
+                    { onChange = ChangeQRType << (\val -> QRWifi ssid password val)
+                    , icon = Input.defaultCheckbox
+                    , checked = hidden
+                    , label = Input.labelRight [] (El.text "Hidden")
                     }
                 ]
 
@@ -206,6 +294,45 @@ encodeQRType qrType =
         QREmail address subject message ->
             "mailto:" ++ Url.percentEncode address ++ "?subject=" ++ Url.percentEncode subject ++ "&body=" ++ Url.percentEncode message
 
+        QRWifi ssid password hidden ->
+            let
+                escapeStr =
+                    String.replace ";" "\\;"
+
+                formattedPassword =
+                    case password of
+                        WPA pass ->
+                            "P:" ++ escapeStr pass ++ ";"
+
+                        WEP pass ->
+                            "P:" ++ escapeStr pass ++ ";"
+
+                        None ->
+                            ""
+
+                formattedPasswordType =
+                    case password of
+                        WPA _ ->
+                            "T:WPA;"
+
+                        WEP _ ->
+                            "T:WEP;"
+
+                        None ->
+                            ""
+
+                formattedSSID =
+                    "S:" ++ escapeStr ssid ++ ";"
+
+                formattedHidden =
+                    if hidden then
+                        "H:true;"
+
+                    else
+                        ""
+            in
+            "WIFI:" ++ formattedPasswordType ++ formattedSSID ++ formattedPassword ++ formattedHidden ++ ";"
+
 
 qrCodeImage : Model -> Element Msg
 qrCodeImage model =
@@ -214,9 +341,10 @@ qrCodeImage model =
             El.text "Something went wrong"
 
         Ok code ->
-            El.html <|
-                QRCode.toSvg
-                    [ Html.Attributes.width 200
-                    , Html.Attributes.height 200
-                    ]
-                    code
+            El.el [ El.alignTop ] <|
+                El.html <|
+                    QRCode.toSvg
+                        [ Html.Attributes.width 200
+                        , Html.Attributes.height 200
+                        ]
+                        code
