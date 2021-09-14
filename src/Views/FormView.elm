@@ -2,7 +2,7 @@ module Views.FormView exposing (..)
 
 import Css exposing (..)
 import Css.Global exposing (children, everything)
-import Html.Styled as Html exposing (Html, div, text)
+import Html.Styled as Html exposing (Html, text)
 import Html.Styled.Attributes as Attrs exposing (css)
 import Html.Styled.Events exposing (onCheck)
 import MediaQueries exposing (withMediaDesktop)

@@ -1,6 +1,7 @@
 module QRTypes exposing (..)
 
 import Url
+import Url.Parser exposing (Parser)
 
 
 type QRType
@@ -8,6 +9,23 @@ type QRType
     | QRUrl String
     | QREmail EmailAddress EmailSubject EmailMessage
     | QRWifi WifiSSID WifiPassword WifiHidden
+    | QRPhone String
+    | QRSms String String
+    | QRTweet String
+    | QRCrypto Cryptocurrency String String String
+
+
+qrTypes : List QRType
+qrTypes =
+    [ QRText ""
+    , QRUrl ""
+    , QREmail "" "" ""
+    , QRWifi "" (WifiWPA "") False
+    , QRPhone ""
+    , QRSms "" ""
+    , QRTweet ""
+    , QRCrypto Bitcoin "" "" ""
+    ]
 
 
 type alias EmailAddress =
@@ -49,13 +67,12 @@ clearWifiPassword password =
             WifiNone
 
 
-qrTypes : List QRType
-qrTypes =
-    [ QRText ""
-    , QRUrl ""
-    , QREmail "" "" ""
-    , QRWifi "" (WifiWPA "") False
-    ]
+type Cryptocurrency
+    = Bitcoin
+    | BitcoinCash
+    | Ethereum
+    | Litecoin
+    | Dash
 
 
 getQRTypeLabel : QRType -> String
@@ -73,6 +90,18 @@ getQRTypeLabel qrType =
         QRWifi _ _ _ ->
             "Wifi"
 
+        QRPhone _ ->
+            "Phone"
+
+        QRSms _ _ ->
+            "SMS"
+
+        QRTweet _ ->
+            "Tweet"
+
+        QRCrypto _ _ _ _ ->
+            "Crypto"
+
 
 clearQRType : QRType -> QRType
 clearQRType qrType =
@@ -88,6 +117,18 @@ clearQRType qrType =
 
         QRWifi _ _ _ ->
             QRWifi "" (WifiWPA "") False
+
+        QRPhone _ ->
+            QRPhone ""
+
+        QRSms _ _ ->
+            QRSms "" ""
+
+        QRTweet _ ->
+            QRTweet ""
+
+        QRCrypto _ _ _ _ ->
+            QRCrypto Bitcoin "" "" ""
 
 
 encodeQRType : QRType -> String
@@ -140,3 +181,33 @@ encodeQRType qrType =
                         ""
             in
             "WIFI:" ++ formattedPasswordType ++ formattedSSID ++ formattedPassword ++ formattedHidden ++ ";"
+
+        QRPhone number ->
+            "tel:" ++ number
+
+        QRSms number message ->
+            "SMSTO:" ++ number ++ ":" ++ message
+
+        QRTweet message ->
+            "https://twitter.com/intent/tweet?text=" ++ Url.percentEncode message
+
+        QRCrypto currency address amount message ->
+            let
+                formattedCurrency =
+                    case currency of
+                        Bitcoin ->
+                            "bitcoin"
+
+                        BitcoinCash ->
+                            "bitcoincash"
+
+                        Ethereum ->
+                            "ethereum"
+
+                        Litecoin ->
+                            "litecoin"
+
+                        Dash ->
+                            "dash"
+            in
+            formattedCurrency ++ ":" ++ Url.percentEncode address ++ "?amount=" ++ Url.percentEncode amount ++ "&message=" ++ Url.percentEncode message

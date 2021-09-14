@@ -2,8 +2,7 @@ module Views.AppView exposing (appView)
 
 import Css exposing (..)
 import Css.Global
-import Css.Media as Media exposing (only, screen, withMedia)
-import Html.Styled as Html exposing (Html, div)
+import Html.Styled as Html exposing (Html, div, text)
 import Html.Styled.Attributes exposing (css)
 import MediaQueries exposing (withMediaDesktop)
 import Model exposing (Model)
@@ -25,6 +24,14 @@ globalStyles =
 
 appView : Model -> Html Msg
 appView model =
+    div []
+        [ Html.h1 [ css [ textAlign center ] ] [ text "QR Code Generator" ]
+        , mainContent model
+        ]
+
+
+mainContent : Model -> Html Msg
+mainContent model =
     div
         [ css
             [ displayFlex
