@@ -1,7 +1,6 @@
 module QRTypes exposing (..)
 
 import Url
-import Url.Parser exposing (Parser)
 
 
 type QRType
