@@ -13,8 +13,8 @@
             "elm/html": "1.0.0",
             "elm/url": "1.0.0",
             "justgook/elm-image": "4.0.0",
-            "mdgriffith/elm-ui": "1.1.8",
-            "pablohirafuji/elm-qrcode": "4.0.1"
+            "pablohirafuji/elm-qrcode": "4.0.1",
+            "rtfeldman/elm-css": "16.1.1"
         },
         "indirect": {
             "avh4/elm-color": "1.0.0",
@@ -25,7 +25,8 @@
             "elm/time": "1.0.0",
             "elm/virtual-dom": "1.0.2",
             "elm-community/list-extra": "8.5.0",
-            "folkertdev/elm-flate": "2.0.5"
+            "folkertdev/elm-flate": "2.0.5",
+            "rtfeldman/elm-hex": "1.0.0"
         }
     },
     "test-dependencies": {
