@@ -2,11 +2,13 @@
 
 set -e
 
-js="dist/elm.js"
-min="dist/elm.min.js"
+build_dir="build"
 
-mkdir -p dist
-cp index.html dist/
+js="$build_dir/elm.js"
+min="$build_dir/elm.min.js"
+
+mkdir -p $build_dir
+cp index.html $build_dir
 
 elm make --optimize --output=$js src/Main.elm
 
