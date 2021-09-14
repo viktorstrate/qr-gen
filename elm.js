@@ -16826,9 +16826,9 @@ var $author$project$Views$QRImageView$qrCodeImage = function (model) {
 					$rtfeldman$elm_css$Html$Styled$Attributes$css(
 					_List_fromArray(
 						[
-							$rtfeldman$elm_css$Css$maxWidth(
+							$rtfeldman$elm_css$Css$width(
 							$rtfeldman$elm_css$Css$px(200)),
-							$rtfeldman$elm_css$Css$maxWidth(
+							$rtfeldman$elm_css$Css$height(
 							$rtfeldman$elm_css$Css$px(200))
 						]))
 				]),
