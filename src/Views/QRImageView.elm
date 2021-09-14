@@ -4,6 +4,7 @@ import Css exposing (..)
 import Html.Styled as Html exposing (Html, div, fromUnstyled, text)
 import Html.Styled.Attributes exposing (css)
 import Html.Styled.Events exposing (onClick)
+import MediaQueries exposing (withMediaDesktop)
 import Model exposing (Model)
 import QRCode
 import QRTypes exposing (encodeQRType)
@@ -13,10 +14,17 @@ import Views.PrimitiveComponents exposing (styledGroup)
 
 qrCodeView : Model -> Html Msg
 qrCodeView model =
-    styledGroup []
+    styledGroup
+        [ css
+            [ flexShrink (int 0)
+            , withMediaDesktop
+                [ marginLeft (px 6)
+                ]
+            ]
+        ]
         [ qrCodeImage model
         , Html.button
-            [ onClick DownloadQRCodeAsPNG ]
+            [ onClick DownloadQRCodeAsPNG, css [ marginTop (px 12) ] ]
             [ text "Download PNG" ]
         ]
 

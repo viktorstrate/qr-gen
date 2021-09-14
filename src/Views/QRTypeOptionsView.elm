@@ -1,7 +1,7 @@
 module Views.QRTypeOptionsView exposing (qrTypeOptions)
 
 import Css exposing (..)
-import Html.Styled as Html exposing (Html, div, span, text)
+import Html.Styled as Html exposing (Attribute, Html, div, span, text)
 import Html.Styled.Attributes as Attrs exposing (css)
 import Html.Styled.Events exposing (onCheck, onInput)
 import Model exposing (Model)
@@ -28,6 +28,14 @@ qrTypeOptions model =
         ]
 
 
+inputSpacingStyles : Attribute Msg
+inputSpacingStyles =
+    css
+        [ display block
+        , marginBottom (px 12)
+        ]
+
+
 textOptions : String -> Html Msg
 textOptions value =
     withLabel "Text" [] <|
@@ -36,6 +44,8 @@ textOptions value =
             , Attrs.spellcheck True
             , css
                 [ width (pct 100)
+                , height (px 100)
+                , maxWidth (pct 100)
                 ]
             ]
             [ text value ]
@@ -57,13 +67,7 @@ urlOptions url =
 emailOptions : String -> EmailSubject -> EmailMessage -> Html Msg
 emailOptions address subject body =
     div []
-        [ withLabel "Email address"
-            [ css
-                [ display block
-                , marginBottom (px 12)
-                ]
-            ]
-          <|
+        [ withLabel "Email address" [ inputSpacingStyles ] <|
             Html.input
                 [ onInput <| ChangeQRType << (\val -> QREmail val subject body)
                 , Attrs.type_ "email"
@@ -71,13 +75,7 @@ emailOptions address subject body =
                 , Attrs.placeholder "name@example.com"
                 ]
                 []
-        , withLabel "Subject"
-            [ css
-                [ display block
-                , marginBottom (px 12)
-                ]
-            ]
-          <|
+        , withLabel "Subject" [ inputSpacingStyles ] <|
             Html.input
                 [ onInput <| ChangeQRType << (\val -> QREmail address val body)
                 , Attrs.type_ "text"
@@ -88,6 +86,11 @@ emailOptions address subject body =
             Html.textarea
                 [ onInput <| ChangeQRType << (\val -> QREmail address subject val)
                 , Attrs.spellcheck True
+                , css
+                    [ width (pct 100)
+                    , height (px 100)
+                    , maxWidth (pct 100)
+                    ]
                 ]
                 [ text body ]
         ]
@@ -96,14 +99,14 @@ emailOptions address subject body =
 wifiOptions : String -> WifiPassword -> WifiHidden -> Html Msg
 wifiOptions ssid password hidden =
     div []
-        ([ withLabel "Network name (SSID)" [] <|
+        ([ withLabel "Network name (SSID)" [ inputSpacingStyles ] <|
             Html.input
                 [ onInput <| ChangeQRType << (\val -> QRWifi val password hidden)
                 , Attrs.value ssid
                 , Attrs.type_ "text"
                 ]
                 []
-         , withLabel "Password type" [] <|
+         , withLabel "Password type" [ inputSpacingStyles ] <|
             Html.div
                 []
                 ([ ( "wpa", "WPA / WPA2", WifiWPA "" ), ( "wep", "WEP", WifiWEP "" ), ( "none", "None", WifiNone ) ]
@@ -131,7 +134,11 @@ wifiOptions ssid password hidden =
                 )
          ]
             ++ wifiPasswordTypeOptions ssid password hidden
-            ++ [ Html.label []
+            ++ [ Html.label
+                    [ css
+                        [ display block
+                        ]
+                    ]
                     [ Html.input
                         [ Attrs.type_ "checkbox"
                         , onCheck (\checked -> ChangeQRType <| QRWifi ssid password checked)
@@ -147,7 +154,7 @@ wifiPasswordTypeOptions : String -> WifiPassword -> WifiHidden -> List (Html Msg
 wifiPasswordTypeOptions ssid password hidden =
     case password of
         WifiWPA wpa ->
-            [ withLabel "Password" [] <|
+            [ withLabel "Password" [ inputSpacingStyles ] <|
                 Html.input
                     [ onInput <| ChangeQRType << (\val -> QRWifi ssid (WifiWPA val) hidden)
                     , Attrs.value wpa
@@ -157,7 +164,7 @@ wifiPasswordTypeOptions ssid password hidden =
             ]
 
         WifiWEP wep ->
-            [ withLabel "Password" [] <|
+            [ withLabel "Password" [ inputSpacingStyles ] <|
                 Html.input
                     [ onInput <| ChangeQRType << (\val -> QRWifi ssid (WifiWEP val) hidden)
                     , Attrs.value wep

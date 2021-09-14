@@ -5,6 +5,7 @@ import Css.Global exposing (children, everything)
 import Html.Styled as Html exposing (Html, div, text)
 import Html.Styled.Attributes as Attrs exposing (css)
 import Html.Styled.Events exposing (onCheck)
+import MediaQueries exposing (withMediaDesktop)
 import Model exposing (Model)
 import QRTypes exposing (clearQRType, getQRTypeLabel, qrTypes)
 import State exposing (Msg(..))
@@ -19,10 +20,17 @@ formView model =
         [ css
             [ displayFlex
             , flexDirection column
+            , flexGrow (int 1)
+            , flexShrink (int 1)
+            , width (pct 100)
             , children
                 [ everything
-                    [ margin2 (px 6) (px 0)
+                    [ marginBottom (px 12)
                     ]
+                ]
+            , withMediaDesktop
+                [ marginRight (px 6)
+                , maxWidth (px 600)
                 ]
             ]
         ]
@@ -39,7 +47,11 @@ qrTypeSelect model =
         (qrTypes
             |> List.map
                 (\qrType ->
-                    Html.label []
+                    Html.label
+                        [ css
+                            [ marginRight (px 10)
+                            ]
+                        ]
                         [ Html.input
                             [ Attrs.type_ "radio"
                             , Attrs.checked (clearQRType qrType == clearQRType model.qrType)
