@@ -1,4 +1,4 @@
-module QRImage exposing (..)
+module Views.QRImageView exposing (qrCodeView)
 
 import Css exposing (..)
 import Html.Styled as Html exposing (Html, div, fromUnstyled, text)
@@ -8,6 +8,17 @@ import Model exposing (Model)
 import QRCode
 import QRTypes exposing (encodeQRType)
 import State exposing (Msg(..))
+import Views.PrimitiveComponents exposing (styledGroup)
+
+
+qrCodeView : Model -> Html Msg
+qrCodeView model =
+    styledGroup []
+        [ qrCodeImage model
+        , Html.button
+            [ onClick DownloadQRCodeAsPNG ]
+            [ text "Download PNG" ]
+        ]
 
 
 qrCodeImage : Model -> Html Msg
@@ -19,12 +30,9 @@ qrCodeImage model =
         Ok code ->
             div
                 [ css
-                    [ width (px 200)
-                    , height (px 200)
+                    [ maxWidth (px 200)
+                    , maxWidth (px 200)
                     ]
                 ]
                 [ fromUnstyled (QRCode.toSvgWithoutQuietZone [] code)
-                , Html.button
-                    [ onClick DownloadQRCodeAsPNG ]
-                    [ text "Download PNG" ]
                 ]

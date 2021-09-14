@@ -6,6 +6,7 @@ import Html.Styled.Events exposing (onInput)
 import Model exposing (Model)
 import QRCode exposing (ErrorCorrection)
 import State exposing (Msg(..))
+import Views.PrimitiveComponents exposing (styledGroup, withLabel)
 
 
 errorCorrectionValueToType : String -> ErrorCorrection
@@ -29,10 +30,9 @@ errorCorrectionValueToType val =
 
 qrErrorCorrectionSelect : Model -> Html Msg
 qrErrorCorrectionSelect model =
-    div []
-        [ Html.label []
-            [ text "Error correction"
-            , Html.select
+    styledGroup []
+        [ withLabel "Error correction" [] <|
+            Html.select
                 [ onInput (ChangeErrorCorrection << errorCorrectionValueToType)
                 ]
                 [ Html.option [ Attrs.value "low", Attrs.selected (model.errorCorrection == QRCode.Low) ] [ text "Low (7% redundancy)" ]
@@ -40,5 +40,4 @@ qrErrorCorrectionSelect model =
                 , Html.option [ Attrs.value "quartile", Attrs.selected (model.errorCorrection == QRCode.Quartile) ] [ text "Quartile (25% redundancy)" ]
                 , Html.option [ Attrs.value "high", Attrs.selected (model.errorCorrection == QRCode.High) ] [ text "High (30% redundancy)" ]
                 ]
-            ]
         ]

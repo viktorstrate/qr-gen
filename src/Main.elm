@@ -6,10 +6,10 @@ import Css.Global
 import Html.Styled exposing (div, toUnstyled)
 import Model exposing (Model)
 import QRCode
-import QRImage exposing (qrCodeImage)
 import QRTypes exposing (QRType(..))
 import State exposing (Msg, update)
 import Views.FormView exposing (formView)
+import Views.QRImageView exposing (qrCodeView)
 
 
 main =
@@ -35,10 +35,11 @@ view model =
                     [ Css.Global.selector "body"
                         [ backgroundColor (hex "f9f9fc")
                         , padding (px 20)
+                        , fontFamilies [ "-apple-system", "BlinkMacSystemFont", "Segoe UI", "Roboto", "Helvetica", "Arial", "sans-serif", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol" ]
                         ]
                     ]
                 , formView model
-                , qrCodeImage model
+                , qrCodeView model
                 ]
             )
         ]
