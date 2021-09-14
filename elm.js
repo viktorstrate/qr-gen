@@ -5792,7 +5792,7 @@ var $author$project$QRTypes$encodeQRType = function (qrType) {
 			var subject = qrType.b;
 			var message = qrType.c;
 			return 'mailto:' + ($elm$url$Url$percentEncode(address) + ('?subject=' + ($elm$url$Url$percentEncode(subject) + ('&body=' + $elm$url$Url$percentEncode(message)))));
-		default:
+		case 3:
 			var ssid = qrType.a;
 			var password = qrType.b;
 			var hidden = qrType.c;
@@ -5822,6 +5822,36 @@ var $author$project$QRTypes$encodeQRType = function (qrType) {
 			}();
 			var formattedSSID = 'S:' + (escapeStr(ssid) + ';');
 			return 'WIFI:' + (formattedPasswordType + (formattedSSID + (formattedPassword + (formattedHidden + ';'))));
+		case 4:
+			var number = qrType.a;
+			return 'tel:' + number;
+		case 5:
+			var number = qrType.a;
+			var message = qrType.b;
+			return 'SMSTO:' + (number + (':' + message));
+		case 6:
+			var message = qrType.a;
+			return 'https://twitter.com/intent/tweet?text=' + $elm$url$Url$percentEncode(message);
+		default:
+			var currency = qrType.a;
+			var address = qrType.b;
+			var amount = qrType.c;
+			var message = qrType.d;
+			var formattedCurrency = function () {
+				switch (currency) {
+					case 0:
+						return 'bitcoin';
+					case 1:
+						return 'bitcoincash';
+					case 2:
+						return 'ethereum';
+					case 3:
+						return 'litecoin';
+					default:
+						return 'dash';
+				}
+			}();
+			return formattedCurrency + (':' + ($elm$url$Url$percentEncode(address) + ('?amount=' + ($elm$url$Url$percentEncode(amount) + ('&message=' + $elm$url$Url$percentEncode(message))))));
 	}
 };
 var $pablohirafuji$elm_qrcode$QRCode$QRCode = $elm$core$Basics$identity;
@@ -13456,106 +13486,8 @@ var $author$project$State$update = F2(
 				return _Utils_Tuple2(model, $elm$core$Platform$Cmd$none);
 		}
 	});
-var $rtfeldman$elm_css$Css$Preprocess$ApplyStyles = function (a) {
-	return {$: 6, a: a};
-};
 var $rtfeldman$elm_css$Css$Preprocess$AppendProperty = function (a) {
 	return {$: 0, a: a};
-};
-var $rtfeldman$elm_css$Css$Internal$property = F2(
-	function (key, value) {
-		return $rtfeldman$elm_css$Css$Preprocess$AppendProperty(key + (':' + value));
-	});
-var $rtfeldman$elm_css$Css$Internal$getOverloadedProperty = F3(
-	function (functionName, desiredKey, style) {
-		getOverloadedProperty:
-		while (true) {
-			switch (style.$) {
-				case 0:
-					var str = style.a;
-					var key = A2(
-						$elm$core$Maybe$withDefault,
-						'',
-						$elm$core$List$head(
-							A2($elm$core$String$split, ':', str)));
-					return A2($rtfeldman$elm_css$Css$Internal$property, desiredKey, key);
-				case 1:
-					var selector = style.a;
-					return A2($rtfeldman$elm_css$Css$Internal$property, desiredKey, 'elm-css-error-cannot-apply-' + (functionName + '-with-inapplicable-Style-for-selector'));
-				case 2:
-					var combinator = style.a;
-					return A2($rtfeldman$elm_css$Css$Internal$property, desiredKey, 'elm-css-error-cannot-apply-' + (functionName + '-with-inapplicable-Style-for-combinator'));
-				case 3:
-					var pseudoElement = style.a;
-					return A2($rtfeldman$elm_css$Css$Internal$property, desiredKey, 'elm-css-error-cannot-apply-' + (functionName + '-with-inapplicable-Style-for-pseudo-element setter'));
-				case 4:
-					return A2($rtfeldman$elm_css$Css$Internal$property, desiredKey, 'elm-css-error-cannot-apply-' + (functionName + '-with-inapplicable-Style-for-media-query'));
-				case 5:
-					return A2($rtfeldman$elm_css$Css$Internal$property, desiredKey, 'elm-css-error-cannot-apply-' + (functionName + '-with-inapplicable-Style-for-keyframes'));
-				default:
-					if (!style.a.b) {
-						return A2($rtfeldman$elm_css$Css$Internal$property, desiredKey, 'elm-css-error-cannot-apply-' + (functionName + '-with-empty-Style'));
-					} else {
-						if (!style.a.b.b) {
-							var _v1 = style.a;
-							var only = _v1.a;
-							var $temp$functionName = functionName,
-								$temp$desiredKey = desiredKey,
-								$temp$style = only;
-							functionName = $temp$functionName;
-							desiredKey = $temp$desiredKey;
-							style = $temp$style;
-							continue getOverloadedProperty;
-						} else {
-							var _v2 = style.a;
-							var first = _v2.a;
-							var rest = _v2.b;
-							var $temp$functionName = functionName,
-								$temp$desiredKey = desiredKey,
-								$temp$style = $rtfeldman$elm_css$Css$Preprocess$ApplyStyles(rest);
-							functionName = $temp$functionName;
-							desiredKey = $temp$desiredKey;
-							style = $temp$style;
-							continue getOverloadedProperty;
-						}
-					}
-			}
-		}
-	});
-var $rtfeldman$elm_css$Css$Internal$IncompatibleUnits = 0;
-var $rtfeldman$elm_css$Css$Structure$Compatible = 0;
-var $elm$core$String$fromFloat = _String_fromNumber;
-var $rtfeldman$elm_css$Css$Internal$lengthConverter = F3(
-	function (units, unitLabel, numericValue) {
-		return {
-			bQ: 0,
-			bZ: 0,
-			at: 0,
-			q: 0,
-			aN: 0,
-			ax: 0,
-			S: 0,
-			ay: 0,
-			az: 0,
-			ab: 0,
-			ac: 0,
-			I: 0,
-			U: numericValue,
-			aF: 0,
-			aH: unitLabel,
-			aW: units,
-			L: _Utils_ap(
-				$elm$core$String$fromFloat(numericValue),
-				unitLabel)
-		};
-	});
-var $rtfeldman$elm_css$Css$Internal$lengthForOverloadedProperty = A3($rtfeldman$elm_css$Css$Internal$lengthConverter, 0, '', 0);
-var $rtfeldman$elm_css$Css$alignItems = function (fn) {
-	return A3(
-		$rtfeldman$elm_css$Css$Internal$getOverloadedProperty,
-		'alignItems',
-		'align-items',
-		fn($rtfeldman$elm_css$Css$Internal$lengthForOverloadedProperty));
 };
 var $rtfeldman$elm_css$Css$property = F2(
 	function (key, value) {
@@ -13566,10 +13498,6 @@ var $rtfeldman$elm_css$Css$prop1 = F2(
 		return A2($rtfeldman$elm_css$Css$property, key, arg.L);
 	});
 var $rtfeldman$elm_css$Css$center = $rtfeldman$elm_css$Css$prop1('center');
-var $rtfeldman$elm_css$Css$row = {bv: 0, aL: 0, L: 'row'};
-var $rtfeldman$elm_css$Css$column = _Utils_update(
-	$rtfeldman$elm_css$Css$row,
-	{L: 'column'});
 var $rtfeldman$elm_css$VirtualDom$Styled$Attribute = F3(
 	function (a, b, c) {
 		return {$: 0, a: a, b: b, c: c};
@@ -15130,7 +15058,6 @@ var $rtfeldman$elm_css$Html$Styled$Internal$css = function (styles) {
 	return A3($rtfeldman$elm_css$VirtualDom$Styled$Attribute, classProperty, styles, classname);
 };
 var $rtfeldman$elm_css$Html$Styled$Attributes$css = $rtfeldman$elm_css$Html$Styled$Internal$css;
-var $rtfeldman$elm_css$Css$displayFlex = A2($rtfeldman$elm_css$Css$property, 'display', 'flex');
 var $rtfeldman$elm_css$VirtualDom$Styled$Node = F3(
 	function (a, b, c) {
 		return {$: 0, a: a, b: b, c: c};
@@ -15138,6 +15065,110 @@ var $rtfeldman$elm_css$VirtualDom$Styled$Node = F3(
 var $rtfeldman$elm_css$VirtualDom$Styled$node = $rtfeldman$elm_css$VirtualDom$Styled$Node;
 var $rtfeldman$elm_css$Html$Styled$node = $rtfeldman$elm_css$VirtualDom$Styled$node;
 var $rtfeldman$elm_css$Html$Styled$div = $rtfeldman$elm_css$Html$Styled$node('div');
+var $rtfeldman$elm_css$Html$Styled$h1 = $rtfeldman$elm_css$Html$Styled$node('h1');
+var $rtfeldman$elm_css$Css$Preprocess$ApplyStyles = function (a) {
+	return {$: 6, a: a};
+};
+var $rtfeldman$elm_css$Css$Internal$property = F2(
+	function (key, value) {
+		return $rtfeldman$elm_css$Css$Preprocess$AppendProperty(key + (':' + value));
+	});
+var $rtfeldman$elm_css$Css$Internal$getOverloadedProperty = F3(
+	function (functionName, desiredKey, style) {
+		getOverloadedProperty:
+		while (true) {
+			switch (style.$) {
+				case 0:
+					var str = style.a;
+					var key = A2(
+						$elm$core$Maybe$withDefault,
+						'',
+						$elm$core$List$head(
+							A2($elm$core$String$split, ':', str)));
+					return A2($rtfeldman$elm_css$Css$Internal$property, desiredKey, key);
+				case 1:
+					var selector = style.a;
+					return A2($rtfeldman$elm_css$Css$Internal$property, desiredKey, 'elm-css-error-cannot-apply-' + (functionName + '-with-inapplicable-Style-for-selector'));
+				case 2:
+					var combinator = style.a;
+					return A2($rtfeldman$elm_css$Css$Internal$property, desiredKey, 'elm-css-error-cannot-apply-' + (functionName + '-with-inapplicable-Style-for-combinator'));
+				case 3:
+					var pseudoElement = style.a;
+					return A2($rtfeldman$elm_css$Css$Internal$property, desiredKey, 'elm-css-error-cannot-apply-' + (functionName + '-with-inapplicable-Style-for-pseudo-element setter'));
+				case 4:
+					return A2($rtfeldman$elm_css$Css$Internal$property, desiredKey, 'elm-css-error-cannot-apply-' + (functionName + '-with-inapplicable-Style-for-media-query'));
+				case 5:
+					return A2($rtfeldman$elm_css$Css$Internal$property, desiredKey, 'elm-css-error-cannot-apply-' + (functionName + '-with-inapplicable-Style-for-keyframes'));
+				default:
+					if (!style.a.b) {
+						return A2($rtfeldman$elm_css$Css$Internal$property, desiredKey, 'elm-css-error-cannot-apply-' + (functionName + '-with-empty-Style'));
+					} else {
+						if (!style.a.b.b) {
+							var _v1 = style.a;
+							var only = _v1.a;
+							var $temp$functionName = functionName,
+								$temp$desiredKey = desiredKey,
+								$temp$style = only;
+							functionName = $temp$functionName;
+							desiredKey = $temp$desiredKey;
+							style = $temp$style;
+							continue getOverloadedProperty;
+						} else {
+							var _v2 = style.a;
+							var first = _v2.a;
+							var rest = _v2.b;
+							var $temp$functionName = functionName,
+								$temp$desiredKey = desiredKey,
+								$temp$style = $rtfeldman$elm_css$Css$Preprocess$ApplyStyles(rest);
+							functionName = $temp$functionName;
+							desiredKey = $temp$desiredKey;
+							style = $temp$style;
+							continue getOverloadedProperty;
+						}
+					}
+			}
+		}
+	});
+var $rtfeldman$elm_css$Css$Internal$IncompatibleUnits = 0;
+var $rtfeldman$elm_css$Css$Structure$Compatible = 0;
+var $elm$core$String$fromFloat = _String_fromNumber;
+var $rtfeldman$elm_css$Css$Internal$lengthConverter = F3(
+	function (units, unitLabel, numericValue) {
+		return {
+			bQ: 0,
+			bZ: 0,
+			at: 0,
+			q: 0,
+			aN: 0,
+			ax: 0,
+			S: 0,
+			ay: 0,
+			az: 0,
+			ab: 0,
+			ac: 0,
+			I: 0,
+			U: numericValue,
+			aF: 0,
+			aH: unitLabel,
+			aW: units,
+			L: _Utils_ap(
+				$elm$core$String$fromFloat(numericValue),
+				unitLabel)
+		};
+	});
+var $rtfeldman$elm_css$Css$Internal$lengthForOverloadedProperty = A3($rtfeldman$elm_css$Css$Internal$lengthConverter, 0, '', 0);
+var $rtfeldman$elm_css$Css$alignItems = function (fn) {
+	return A3(
+		$rtfeldman$elm_css$Css$Internal$getOverloadedProperty,
+		'alignItems',
+		'align-items',
+		fn($rtfeldman$elm_css$Css$Internal$lengthForOverloadedProperty));
+};
+var $rtfeldman$elm_css$Css$row = {bv: 0, aL: 0, L: 'row'};
+var $rtfeldman$elm_css$Css$column = _Utils_update(
+	$rtfeldman$elm_css$Css$row,
+	{L: 'column'});
+var $rtfeldman$elm_css$Css$displayFlex = A2($rtfeldman$elm_css$Css$property, 'display', 'flex');
 var $rtfeldman$elm_css$Css$flexDirection = $rtfeldman$elm_css$Css$prop1('flex-direction');
 var $rtfeldman$elm_css$Css$Structure$Child = 2;
 var $rtfeldman$elm_css$Css$Preprocess$NestSnippet = F2(
@@ -15762,14 +15793,19 @@ var $author$project$Views$ErrorCorrectionView$qrErrorCorrectionSelect = function
 						])))
 			]));
 };
+var $author$project$QRTypes$Bitcoin = 0;
+var $author$project$QRTypes$BitcoinCash = 1;
 var $author$project$State$ChangeQRType = function (a) {
 	return {$: 0, a: a};
 };
-var $author$project$QRTypes$QREmail = F3(
-	function (a, b, c) {
-		return {$: 2, a: a, b: b, c: c};
+var $author$project$QRTypes$Ethereum = 2;
+var $author$project$QRTypes$Litecoin = 3;
+var $author$project$State$NoOp = {$: 3};
+var $author$project$QRTypes$QRCrypto = F4(
+	function (a, b, c, d) {
+		return {$: 7, a: a, b: b, c: c, d: d};
 	});
-var $rtfeldman$elm_css$Css$height = $rtfeldman$elm_css$Css$prop1('height');
+var $rtfeldman$elm_css$Html$Styled$Attributes$checked = $rtfeldman$elm_css$Html$Styled$Attributes$boolProperty('checked');
 var $rtfeldman$elm_css$Html$Styled$input = $rtfeldman$elm_css$Html$Styled$node('input');
 var $author$project$Views$QRTypeOptionsView$inputSpacingStyles = $rtfeldman$elm_css$Html$Styled$Attributes$css(
 	_List_fromArray(
@@ -15778,10 +15814,131 @@ var $author$project$Views$QRTypeOptionsView$inputSpacingStyles = $rtfeldman$elm_
 			$rtfeldman$elm_css$Css$marginBottom(
 			$rtfeldman$elm_css$Css$px(12))
 		]));
+var $rtfeldman$elm_css$Html$Styled$Attributes$name = $rtfeldman$elm_css$Html$Styled$Attributes$stringProperty('name');
+var $elm$virtual_dom$VirtualDom$Normal = function (a) {
+	return {$: 0, a: a};
+};
+var $rtfeldman$elm_css$Html$Styled$Events$on = F2(
+	function (event, decoder) {
+		return A2(
+			$rtfeldman$elm_css$VirtualDom$Styled$on,
+			event,
+			$elm$virtual_dom$VirtualDom$Normal(decoder));
+	});
+var $elm$json$Json$Decode$bool = _Json_decodeBool;
+var $rtfeldman$elm_css$Html$Styled$Events$targetChecked = A2(
+	$elm$json$Json$Decode$at,
+	_List_fromArray(
+		['target', 'checked']),
+	$elm$json$Json$Decode$bool);
+var $rtfeldman$elm_css$Html$Styled$Events$onCheck = function (tagger) {
+	return A2(
+		$rtfeldman$elm_css$Html$Styled$Events$on,
+		'change',
+		A2($elm$json$Json$Decode$map, tagger, $rtfeldman$elm_css$Html$Styled$Events$targetChecked));
+};
+var $rtfeldman$elm_css$Html$Styled$Attributes$type_ = $rtfeldman$elm_css$Html$Styled$Attributes$stringProperty('type');
+var $author$project$Views$QRTypeOptionsView$cryptoOptions = F4(
+	function (currency, address, amount, message) {
+		return A2(
+			$rtfeldman$elm_css$Html$Styled$div,
+			_List_Nil,
+			_List_fromArray(
+				[
+					A3(
+					$author$project$Views$PrimitiveComponents$withLabel,
+					'Crypto currency',
+					_List_fromArray(
+						[$author$project$Views$QRTypeOptionsView$inputSpacingStyles]),
+					A2(
+						$rtfeldman$elm_css$Html$Styled$div,
+						_List_Nil,
+						A2(
+							$elm$core$List$map,
+							function (_v0) {
+								var value = _v0.a;
+								var label = _v0.b;
+								var currency_ = _v0.c;
+								return A2(
+									$rtfeldman$elm_css$Html$Styled$label,
+									_List_Nil,
+									_List_fromArray(
+										[
+											A2(
+											$rtfeldman$elm_css$Html$Styled$input,
+											_List_fromArray(
+												[
+													$rtfeldman$elm_css$Html$Styled$Attributes$type_('radio'),
+													$rtfeldman$elm_css$Html$Styled$Attributes$name('crypto_currency'),
+													$rtfeldman$elm_css$Html$Styled$Attributes$value(value),
+													$rtfeldman$elm_css$Html$Styled$Attributes$checked(
+													_Utils_eq(currency, currency_)),
+													$rtfeldman$elm_css$Html$Styled$Events$onCheck(
+													function (selected) {
+														return selected ? $author$project$State$ChangeQRType(
+															A4($author$project$QRTypes$QRCrypto, currency_, address, amount, message)) : $author$project$State$NoOp;
+													})
+												]),
+											_List_Nil),
+											$rtfeldman$elm_css$Html$Styled$text(label)
+										]));
+							},
+							_List_fromArray(
+								[
+									_Utils_Tuple3('bitcoin', 'Bitcoin', 0),
+									_Utils_Tuple3('bitcoin-cash', 'Bitcoin Cash', 1),
+									_Utils_Tuple3('ethereum', 'Ethereum', 2),
+									_Utils_Tuple3('litecoin', 'Litecoin', 3)
+								])))),
+					A3(
+					$author$project$Views$PrimitiveComponents$withLabel,
+					'Receiver address',
+					_List_fromArray(
+						[$author$project$Views$QRTypeOptionsView$inputSpacingStyles]),
+					A2(
+						$rtfeldman$elm_css$Html$Styled$input,
+						_List_fromArray(
+							[
+								$rtfeldman$elm_css$Html$Styled$Events$onInput(
+								A2(
+									$elm$core$Basics$composeL,
+									$author$project$State$ChangeQRType,
+									function (val) {
+										return A4($author$project$QRTypes$QRCrypto, currency, val, amount, message);
+									})),
+								$rtfeldman$elm_css$Html$Styled$Attributes$value(address),
+								$rtfeldman$elm_css$Html$Styled$Attributes$type_('text')
+							]),
+						_List_Nil)),
+					A3(
+					$author$project$Views$PrimitiveComponents$withLabel,
+					'Amount',
+					_List_Nil,
+					A2(
+						$rtfeldman$elm_css$Html$Styled$input,
+						_List_fromArray(
+							[
+								$rtfeldman$elm_css$Html$Styled$Events$onInput(
+								A2(
+									$elm$core$Basics$composeL,
+									$author$project$State$ChangeQRType,
+									function (val) {
+										return A4($author$project$QRTypes$QRCrypto, currency, address, amount, message);
+									})),
+								$rtfeldman$elm_css$Html$Styled$Attributes$value(amount),
+								$rtfeldman$elm_css$Html$Styled$Attributes$type_('text')
+							]),
+						_List_Nil))
+				]));
+	});
+var $author$project$QRTypes$QREmail = F3(
+	function (a, b, c) {
+		return {$: 2, a: a, b: b, c: c};
+	});
+var $rtfeldman$elm_css$Css$height = $rtfeldman$elm_css$Css$prop1('height');
 var $rtfeldman$elm_css$Html$Styled$Attributes$placeholder = $rtfeldman$elm_css$Html$Styled$Attributes$stringProperty('placeholder');
 var $rtfeldman$elm_css$Html$Styled$Attributes$spellcheck = $rtfeldman$elm_css$Html$Styled$Attributes$boolProperty('spellcheck');
 var $rtfeldman$elm_css$Html$Styled$textarea = $rtfeldman$elm_css$Html$Styled$node('textarea');
-var $rtfeldman$elm_css$Html$Styled$Attributes$type_ = $rtfeldman$elm_css$Html$Styled$Attributes$stringProperty('type');
 var $rtfeldman$elm_css$Css$width = $rtfeldman$elm_css$Css$prop1('width');
 var $author$project$Views$QRTypeOptionsView$emailOptions = F3(
 	function (address, subject, body) {
@@ -15864,6 +16021,95 @@ var $author$project$Views$QRTypeOptionsView$emailOptions = F3(
 							])))
 				]));
 	});
+var $author$project$QRTypes$QRPhone = function (a) {
+	return {$: 4, a: a};
+};
+var $author$project$Views$QRTypeOptionsView$phoneOptions = function (number) {
+	return A2(
+		$rtfeldman$elm_css$Html$Styled$div,
+		_List_Nil,
+		_List_fromArray(
+			[
+				A3(
+				$author$project$Views$PrimitiveComponents$withLabel,
+				'Number',
+				_List_Nil,
+				A2(
+					$rtfeldman$elm_css$Html$Styled$input,
+					_List_fromArray(
+						[
+							$rtfeldman$elm_css$Html$Styled$Events$onInput(
+							A2($elm$core$Basics$composeL, $author$project$State$ChangeQRType, $author$project$QRTypes$QRPhone)),
+							$rtfeldman$elm_css$Html$Styled$Attributes$value(number),
+							$rtfeldman$elm_css$Html$Styled$Attributes$type_('tel')
+						]),
+					_List_Nil))
+			]));
+};
+var $author$project$QRTypes$QRSms = F2(
+	function (a, b) {
+		return {$: 5, a: a, b: b};
+	});
+var $author$project$Views$QRTypeOptionsView$smsOptions = F2(
+	function (number, message) {
+		return A2(
+			$rtfeldman$elm_css$Html$Styled$div,
+			_List_Nil,
+			_List_fromArray(
+				[
+					A3(
+					$author$project$Views$PrimitiveComponents$withLabel,
+					'Number',
+					_List_fromArray(
+						[$author$project$Views$QRTypeOptionsView$inputSpacingStyles]),
+					A2(
+						$rtfeldman$elm_css$Html$Styled$input,
+						_List_fromArray(
+							[
+								$rtfeldman$elm_css$Html$Styled$Events$onInput(
+								A2(
+									$elm$core$Basics$composeL,
+									$author$project$State$ChangeQRType,
+									function (val) {
+										return A2($author$project$QRTypes$QRSms, val, message);
+									})),
+								$rtfeldman$elm_css$Html$Styled$Attributes$value(number),
+								$rtfeldman$elm_css$Html$Styled$Attributes$type_('tel')
+							]),
+						_List_Nil)),
+					A3(
+					$author$project$Views$PrimitiveComponents$withLabel,
+					'Message',
+					_List_Nil,
+					A2(
+						$rtfeldman$elm_css$Html$Styled$textarea,
+						_List_fromArray(
+							[
+								$rtfeldman$elm_css$Html$Styled$Events$onInput(
+								A2(
+									$elm$core$Basics$composeL,
+									$author$project$State$ChangeQRType,
+									function (val) {
+										return A2($author$project$QRTypes$QRSms, number, val);
+									})),
+								$rtfeldman$elm_css$Html$Styled$Attributes$spellcheck(true),
+								$rtfeldman$elm_css$Html$Styled$Attributes$css(
+								_List_fromArray(
+									[
+										$rtfeldman$elm_css$Css$width(
+										$rtfeldman$elm_css$Css$pct(100)),
+										$rtfeldman$elm_css$Css$height(
+										$rtfeldman$elm_css$Css$px(100)),
+										$rtfeldman$elm_css$Css$maxWidth(
+										$rtfeldman$elm_css$Css$pct(100))
+									]))
+							]),
+						_List_fromArray(
+							[
+								$rtfeldman$elm_css$Html$Styled$text(message)
+							])))
+				]));
+	});
 var $author$project$Views$QRTypeOptionsView$textOptions = function (value) {
 	return A3(
 		$author$project$Views$PrimitiveComponents$withLabel,
@@ -15892,6 +16138,43 @@ var $author$project$Views$QRTypeOptionsView$textOptions = function (value) {
 					$rtfeldman$elm_css$Html$Styled$text(value)
 				])));
 };
+var $author$project$QRTypes$QRTweet = function (a) {
+	return {$: 6, a: a};
+};
+var $author$project$Views$QRTypeOptionsView$tweetOptions = function (message) {
+	return A2(
+		$rtfeldman$elm_css$Html$Styled$div,
+		_List_Nil,
+		_List_fromArray(
+			[
+				A3(
+				$author$project$Views$PrimitiveComponents$withLabel,
+				'Message',
+				_List_Nil,
+				A2(
+					$rtfeldman$elm_css$Html$Styled$textarea,
+					_List_fromArray(
+						[
+							$rtfeldman$elm_css$Html$Styled$Events$onInput(
+							A2($elm$core$Basics$composeL, $author$project$State$ChangeQRType, $author$project$QRTypes$QRTweet)),
+							$rtfeldman$elm_css$Html$Styled$Attributes$spellcheck(true),
+							$rtfeldman$elm_css$Html$Styled$Attributes$css(
+							_List_fromArray(
+								[
+									$rtfeldman$elm_css$Css$width(
+									$rtfeldman$elm_css$Css$pct(100)),
+									$rtfeldman$elm_css$Css$height(
+									$rtfeldman$elm_css$Css$px(100)),
+									$rtfeldman$elm_css$Css$maxWidth(
+									$rtfeldman$elm_css$Css$pct(100))
+								]))
+						]),
+					_List_fromArray(
+						[
+							$rtfeldman$elm_css$Html$Styled$text(message)
+						])))
+			]));
+};
 var $author$project$QRTypes$QRUrl = function (a) {
 	return {$: 1, a: a};
 };
@@ -15913,7 +16196,6 @@ var $author$project$Views$QRTypeOptionsView$urlOptions = function (url) {
 				]),
 			_List_Nil));
 };
-var $author$project$State$NoOp = {$: 3};
 var $author$project$QRTypes$QRWifi = F3(
 	function (a, b, c) {
 		return {$: 3, a: a, b: b, c: c};
@@ -15925,7 +16207,6 @@ var $author$project$QRTypes$WifiWEP = function (a) {
 var $author$project$QRTypes$WifiWPA = function (a) {
 	return {$: 0, a: a};
 };
-var $rtfeldman$elm_css$Html$Styled$Attributes$checked = $rtfeldman$elm_css$Html$Styled$Attributes$boolProperty('checked');
 var $author$project$QRTypes$clearWifiPassword = function (password) {
 	switch (password.$) {
 		case 0:
@@ -15935,29 +16216,6 @@ var $author$project$QRTypes$clearWifiPassword = function (password) {
 		default:
 			return $author$project$QRTypes$WifiNone;
 	}
-};
-var $rtfeldman$elm_css$Html$Styled$Attributes$name = $rtfeldman$elm_css$Html$Styled$Attributes$stringProperty('name');
-var $elm$virtual_dom$VirtualDom$Normal = function (a) {
-	return {$: 0, a: a};
-};
-var $rtfeldman$elm_css$Html$Styled$Events$on = F2(
-	function (event, decoder) {
-		return A2(
-			$rtfeldman$elm_css$VirtualDom$Styled$on,
-			event,
-			$elm$virtual_dom$VirtualDom$Normal(decoder));
-	});
-var $elm$json$Json$Decode$bool = _Json_decodeBool;
-var $rtfeldman$elm_css$Html$Styled$Events$targetChecked = A2(
-	$elm$json$Json$Decode$at,
-	_List_fromArray(
-		['target', 'checked']),
-	$elm$json$Json$Decode$bool);
-var $rtfeldman$elm_css$Html$Styled$Events$onCheck = function (tagger) {
-	return A2(
-		$rtfeldman$elm_css$Html$Styled$Events$on,
-		'change',
-		A2($elm$json$Json$Decode$map, tagger, $rtfeldman$elm_css$Html$Styled$Events$targetChecked));
 };
 var $author$project$Views$QRTypeOptionsView$wifiPasswordTypeOptions = F3(
 	function (ssid, password, hidden) {
@@ -16157,11 +16415,27 @@ var $author$project$Views$QRTypeOptionsView$qrTypeOptions = function (model) {
 						var subject = _v0.b;
 						var body = _v0.c;
 						return A3($author$project$Views$QRTypeOptionsView$emailOptions, address, subject, body);
-					default:
+					case 3:
 						var ssid = _v0.a;
 						var password = _v0.b;
 						var hidden = _v0.c;
 						return A3($author$project$Views$QRTypeOptionsView$wifiOptions, ssid, password, hidden);
+					case 4:
+						var number = _v0.a;
+						return $author$project$Views$QRTypeOptionsView$phoneOptions(number);
+					case 5:
+						var number = _v0.a;
+						var message = _v0.b;
+						return A2($author$project$Views$QRTypeOptionsView$smsOptions, number, message);
+					case 6:
+						var message = _v0.a;
+						return $author$project$Views$QRTypeOptionsView$tweetOptions(message);
+					default:
+						var currency = _v0.a;
+						var address = _v0.b;
+						var amount = _v0.c;
+						var message = _v0.d;
+						return A4($author$project$Views$QRTypeOptionsView$cryptoOptions, currency, address, amount, message);
 				}
 			}()
 			]));
@@ -16174,12 +16448,20 @@ var $author$project$QRTypes$clearQRType = function (qrType) {
 			return $author$project$QRTypes$QRUrl('');
 		case 2:
 			return A3($author$project$QRTypes$QREmail, '', '', '');
-		default:
+		case 3:
 			return A3(
 				$author$project$QRTypes$QRWifi,
 				'',
 				$author$project$QRTypes$WifiWPA(''),
 				false);
+		case 4:
+			return $author$project$QRTypes$QRPhone('');
+		case 5:
+			return A2($author$project$QRTypes$QRSms, '', '');
+		case 6:
+			return $author$project$QRTypes$QRTweet('');
+		default:
+			return A4($author$project$QRTypes$QRCrypto, 0, '', '', '');
 	}
 };
 var $author$project$QRTypes$getQRTypeLabel = function (qrType) {
@@ -16190,8 +16472,16 @@ var $author$project$QRTypes$getQRTypeLabel = function (qrType) {
 			return 'URL';
 		case 2:
 			return 'Email';
-		default:
+		case 3:
 			return 'Wifi';
+		case 4:
+			return 'Phone';
+		case 5:
+			return 'SMS';
+		case 6:
+			return 'Tweet';
+		default:
+			return 'Crypto';
 	}
 };
 var $author$project$QRTypes$qrTypes = _List_fromArray(
@@ -16203,7 +16493,11 @@ var $author$project$QRTypes$qrTypes = _List_fromArray(
 		$author$project$QRTypes$QRWifi,
 		'',
 		$author$project$QRTypes$WifiWPA(''),
-		false)
+		false),
+		$author$project$QRTypes$QRPhone(''),
+		A2($author$project$QRTypes$QRSms, '', ''),
+		$author$project$QRTypes$QRTweet(''),
+		A4($author$project$QRTypes$QRCrypto, 0, '', '', '')
 	]);
 var $author$project$Views$FormView$qrTypeSelect = function (model) {
 	return A2(
@@ -16585,7 +16879,7 @@ var $author$project$Views$QRImageView$qrCodeView = function (model) {
 			]));
 };
 var $rtfeldman$elm_css$Css$start = $rtfeldman$elm_css$Css$prop1('start');
-var $author$project$Views$AppView$appView = function (model) {
+var $author$project$Views$AppView$mainContent = function (model) {
 	return A2(
 		$rtfeldman$elm_css$Html$Styled$div,
 		_List_fromArray(
@@ -16611,6 +16905,36 @@ var $author$project$Views$AppView$appView = function (model) {
 				$author$project$Views$AppView$globalStyles,
 				$author$project$Views$FormView$formView(model),
 				$author$project$Views$QRImageView$qrCodeView(model)
+			]));
+};
+var $rtfeldman$elm_css$Css$textAlign = function (fn) {
+	return A3(
+		$rtfeldman$elm_css$Css$Internal$getOverloadedProperty,
+		'textAlign',
+		'text-align',
+		fn($rtfeldman$elm_css$Css$Internal$lengthForOverloadedProperty));
+};
+var $author$project$Views$AppView$appView = function (model) {
+	return A2(
+		$rtfeldman$elm_css$Html$Styled$div,
+		_List_Nil,
+		_List_fromArray(
+			[
+				A2(
+				$rtfeldman$elm_css$Html$Styled$h1,
+				_List_fromArray(
+					[
+						$rtfeldman$elm_css$Html$Styled$Attributes$css(
+						_List_fromArray(
+							[
+								$rtfeldman$elm_css$Css$textAlign($rtfeldman$elm_css$Css$center)
+							]))
+					]),
+				_List_fromArray(
+					[
+						$rtfeldman$elm_css$Html$Styled$text('QR Code Generator')
+					])),
+				$author$project$Views$AppView$mainContent(model)
 			]));
 };
 var $rtfeldman$elm_css$VirtualDom$Styled$accumulateStyles = F2(
