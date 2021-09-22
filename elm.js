@@ -15923,7 +15923,7 @@ var $author$project$Views$QRTypeOptionsView$cryptoOptions = F4(
 									$elm$core$Basics$composeL,
 									$author$project$State$ChangeQRType,
 									function (val) {
-										return A4($author$project$QRTypes$QRCrypto, currency, address, amount, message);
+										return A4($author$project$QRTypes$QRCrypto, currency, address, val, message);
 									})),
 								$rtfeldman$elm_css$Html$Styled$Attributes$value(amount),
 								$rtfeldman$elm_css$Html$Styled$Attributes$type_('text')
