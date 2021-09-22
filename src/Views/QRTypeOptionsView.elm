@@ -281,7 +281,7 @@ cryptoOptions currency address amount message =
                 []
         , withLabel "Amount" [] <|
             Html.input
-                [ onInput <| ChangeQRType << (\val -> QRCrypto currency address amount message)
+                [ onInput <| ChangeQRType << (\val -> QRCrypto currency address val message)
                 , Attrs.value amount
                 , Attrs.type_ "text"
                 ]

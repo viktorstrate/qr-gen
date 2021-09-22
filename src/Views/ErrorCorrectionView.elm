@@ -1,6 +1,6 @@
 module Views.ErrorCorrectionView exposing (..)
 
-import Html.Styled as Html exposing (Html, div, text)
+import Html.Styled as Html exposing (Html, text)
 import Html.Styled.Attributes as Attrs
 import Html.Styled.Events exposing (onInput)
 import Model exposing (Model)
