@@ -16619,6 +16619,9 @@ var $author$project$Views$FormView$formView = function (model) {
 				$author$project$Views$ErrorCorrectionView$qrErrorCorrectionSelect(model)
 			]));
 };
+var $rtfeldman$elm_css$Css$backgroundAttachment = $rtfeldman$elm_css$Css$prop1('background-attachment');
+var $rtfeldman$elm_css$Css$backgroundImage = $rtfeldman$elm_css$Css$prop1('background-image');
+var $rtfeldman$elm_css$Css$backgroundRepeat = $rtfeldman$elm_css$Css$prop1('background-repeat');
 var $rtfeldman$elm_css$Css$stringsToValue = function (list) {
 	return $elm$core$List$isEmpty(list) ? {L: 'none'} : {
 		L: A2(
@@ -16653,6 +16656,8 @@ var $rtfeldman$elm_css$Css$Global$global = function (snippets) {
 						$elm$core$List$singleton(
 							$rtfeldman$elm_css$Css$Preprocess$stylesheet(snippets)))))));
 };
+var $rtfeldman$elm_css$Css$repeat = {ap: 0, N: 0, L: 'repeat'};
+var $rtfeldman$elm_css$Css$scroll = {aK: 0, bW: 0, cj: 0, aA: 0, dD: 0, L: 'scroll'};
 var $rtfeldman$elm_css$Css$Global$selector = F2(
 	function (selectorStr, styles) {
 		return A2(
@@ -16660,6 +16665,9 @@ var $rtfeldman$elm_css$Css$Global$selector = F2(
 			styles,
 			A2($rtfeldman$elm_css$Css$Structure$CustomSelector, selectorStr, _List_Nil));
 	});
+var $rtfeldman$elm_css$Css$url = function (urlValue) {
+	return {ao: 0, L: 'url(' + (urlValue + ')')};
+};
 var $author$project$Views$AppView$globalStyles = $rtfeldman$elm_css$Css$Global$global(
 	_List_fromArray(
 		[
@@ -16670,6 +16678,10 @@ var $author$project$Views$AppView$globalStyles = $rtfeldman$elm_css$Css$Global$g
 				[
 					$rtfeldman$elm_css$Css$backgroundColor(
 					$rtfeldman$elm_css$Css$hex('f9f9fc')),
+					$rtfeldman$elm_css$Css$backgroundImage(
+					$rtfeldman$elm_css$Css$url('https://www.toptal.com/designers/subtlepatterns/patterns/email-pattern.png')),
+					$rtfeldman$elm_css$Css$backgroundAttachment($rtfeldman$elm_css$Css$scroll),
+					$rtfeldman$elm_css$Css$backgroundRepeat($rtfeldman$elm_css$Css$repeat),
 					$rtfeldman$elm_css$Css$padding(
 					$rtfeldman$elm_css$Css$px(20)),
 					$rtfeldman$elm_css$Css$fontFamilies(
