@@ -16,6 +16,9 @@ globalStyles =
     Css.Global.global
         [ Css.Global.selector "body"
             [ backgroundColor (hex "f9f9fc")
+            , backgroundImage (url "https://www.toptal.com/designers/subtlepatterns/patterns/email-pattern.png")
+            , backgroundAttachment scroll
+            , backgroundRepeat repeat
             , padding (px 20)
             , fontFamilies [ "-apple-system", "BlinkMacSystemFont", "Segoe UI", "Roboto", "Helvetica", "Arial", "sans-serif", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol" ]
             ]
