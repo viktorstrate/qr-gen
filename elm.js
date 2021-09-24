@@ -784,11 +784,11 @@ function _Debug_crash_UNUSED(identifier, fact1, fact2, fact3, fact4)
 
 function _Debug_regionToString(region)
 {
-	if (region.bL.aO === region.b5.aO)
+	if (region.bL.aO === region.b4.aO)
 	{
 		return 'on line ' + region.bL.aO;
 	}
-	return 'on lines ' + region.bL.aO + ' through ' + region.b5.aO;
+	return 'on lines ' + region.bL.aO + ' through ' + region.b4.aO;
 }
 
 
@@ -1857,7 +1857,7 @@ var _Platform_worker = F4(function(impl, flagDecoder, debugMetadata, args)
 	return _Platform_initialize(
 		flagDecoder,
 		args,
-		impl.dl,
+		impl.dk,
 		impl.dJ,
 		impl.dG,
 		function() { return function() {} }
@@ -3928,7 +3928,7 @@ var _Browser_element = _Debugger_element || F4(function(impl, flagDecoder, debug
 	return _Platform_initialize(
 		flagDecoder,
 		args,
-		impl.dl,
+		impl.dk,
 		impl.dJ,
 		impl.dG,
 		function(sendToApp, initialModel) {
@@ -3964,7 +3964,7 @@ var _Browser_document = _Debugger_document || F4(function(impl, flagDecoder, deb
 	return _Platform_initialize(
 		flagDecoder,
 		args,
-		impl.dl,
+		impl.dk,
 		impl.dJ,
 		impl.dG,
 		function(sendToApp, initialModel) {
@@ -3977,7 +3977,7 @@ var _Browser_document = _Debugger_document || F4(function(impl, flagDecoder, deb
 			{
 				_VirtualDom_divertHrefToApp = divertHrefToApp;
 				var doc = view(model);
-				var nextNode = _VirtualDom_node('body')(_List_Nil)(doc.cZ);
+				var nextNode = _VirtualDom_node('body')(_List_Nil)(doc.cX);
 				var patches = _VirtualDom_diff(currNode, nextNode);
 				bodyNode = _VirtualDom_applyPatches(bodyNode, currNode, patches, sendToApp);
 				currNode = nextNode;
@@ -4059,9 +4059,9 @@ function _Browser_application(impl)
 					var next = $elm$url$Url$fromString(href).a;
 					sendToApp(onUrlRequest(
 						(next
-							&& curr.cB === next.cB
-							&& curr.cd === next.cd
-							&& curr.cy.a === next.cy.a
+							&& curr.cz === next.cz
+							&& curr.cc === next.cc
+							&& curr.cw.a === next.cw.a
 						)
 							? $elm$browser$Browser$Internal(next)
 							: $elm$browser$Browser$External(href)
@@ -4069,9 +4069,9 @@ function _Browser_application(impl)
 				}
 			});
 		},
-		dl: function(flags)
+		dk: function(flags)
 		{
-			return A3(impl.dl, flags, _Browser_getUrl(), key);
+			return A3(impl.dk, flags, _Browser_getUrl(), key);
 		},
 		dL: impl.dL,
 		dJ: impl.dJ,
@@ -4141,17 +4141,17 @@ var _Browser_decodeEvent = F2(function(decoder, event)
 function _Browser_visibilityInfo()
 {
 	return (typeof _VirtualDom_doc.hidden !== 'undefined')
-		? { dh: 'hidden', c$: 'visibilitychange' }
+		? { dg: 'hidden', cZ: 'visibilitychange' }
 		:
 	(typeof _VirtualDom_doc.mozHidden !== 'undefined')
-		? { dh: 'mozHidden', c$: 'mozvisibilitychange' }
+		? { dg: 'mozHidden', cZ: 'mozvisibilitychange' }
 		:
 	(typeof _VirtualDom_doc.msHidden !== 'undefined')
-		? { dh: 'msHidden', c$: 'msvisibilitychange' }
+		? { dg: 'msHidden', cZ: 'msvisibilitychange' }
 		:
 	(typeof _VirtualDom_doc.webkitHidden !== 'undefined')
-		? { dh: 'webkitHidden', c$: 'webkitvisibilitychange' }
-		: { dh: 'hidden', c$: 'visibilitychange' };
+		? { dg: 'webkitHidden', cZ: 'webkitvisibilitychange' }
+		: { dg: 'hidden', cZ: 'visibilitychange' };
 }
 
 
@@ -4232,12 +4232,12 @@ var _Browser_call = F2(function(functionName, id)
 function _Browser_getViewport()
 {
 	return {
-		cI: _Browser_getScene(),
-		cP: {
-			cR: _Browser_window.pageXOffset,
-			cS: _Browser_window.pageYOffset,
-			cQ: _Browser_doc.documentElement.clientWidth,
-			cc: _Browser_doc.documentElement.clientHeight
+		cG: _Browser_getScene(),
+		cN: {
+			cP: _Browser_window.pageXOffset,
+			cQ: _Browser_window.pageYOffset,
+			cO: _Browser_doc.documentElement.clientWidth,
+			cb: _Browser_doc.documentElement.clientHeight
 		}
 	};
 }
@@ -4247,8 +4247,8 @@ function _Browser_getScene()
 	var body = _Browser_doc.body;
 	var elem = _Browser_doc.documentElement;
 	return {
-		cQ: Math.max(body.scrollWidth, body.offsetWidth, elem.scrollWidth, elem.offsetWidth, elem.clientWidth),
-		cc: Math.max(body.scrollHeight, body.offsetHeight, elem.scrollHeight, elem.offsetHeight, elem.clientHeight)
+		cO: Math.max(body.scrollWidth, body.offsetWidth, elem.scrollWidth, elem.offsetWidth, elem.clientWidth),
+		cb: Math.max(body.scrollHeight, body.offsetHeight, elem.scrollHeight, elem.offsetHeight, elem.clientHeight)
 	};
 }
 
@@ -4271,15 +4271,15 @@ function _Browser_getViewportOf(id)
 	return _Browser_withNode(id, function(node)
 	{
 		return {
-			cI: {
-				cQ: node.scrollWidth,
-				cc: node.scrollHeight
+			cG: {
+				cO: node.scrollWidth,
+				cb: node.scrollHeight
 			},
-			cP: {
-				cR: node.scrollLeft,
-				cS: node.scrollTop,
-				cQ: node.clientWidth,
-				cc: node.clientHeight
+			cN: {
+				cP: node.scrollLeft,
+				cQ: node.scrollTop,
+				cO: node.clientWidth,
+				cb: node.clientHeight
 			}
 		};
 	});
@@ -4309,18 +4309,18 @@ function _Browser_getElement(id)
 		var x = _Browser_window.pageXOffset;
 		var y = _Browser_window.pageYOffset;
 		return {
-			cI: _Browser_getScene(),
-			cP: {
-				cR: x,
-				cS: y,
-				cQ: _Browser_doc.documentElement.clientWidth,
-				cc: _Browser_doc.documentElement.clientHeight
+			cG: _Browser_getScene(),
+			cN: {
+				cP: x,
+				cQ: y,
+				cO: _Browser_doc.documentElement.clientWidth,
+				cb: _Browser_doc.documentElement.clientHeight
 			},
-			da: {
-				cR: x + rect.left,
-				cS: y + rect.top,
-				cQ: rect.width,
-				cc: rect.height
+			c9: {
+				cP: x + rect.left,
+				cQ: y + rect.top,
+				cO: rect.width,
+				cb: rect.height
 			}
 		};
 	});
@@ -4775,7 +4775,7 @@ var _Regex_fromStringWith = F2(function(options, string)
 {
 	var flags = 'g';
 	if (options.dr) { flags += 'm'; }
-	if (options.c_) { flags += 'i'; }
+	if (options.cY) { flags += 'i'; }
 
 	try
 	{
@@ -5370,7 +5370,7 @@ var $elm$url$Url$Http = 0;
 var $elm$url$Url$Https = 1;
 var $elm$url$Url$Url = F6(
 	function (protocol, host, port_, path, query, fragment) {
-		return {ca: fragment, cd: host, cw: path, cy: port_, cB: protocol, cC: query};
+		return {b9: fragment, cc: host, cu: path, cw: port_, cz: protocol, cA: query};
 	});
 var $elm$core$String$contains = _String_contains;
 var $elm$core$String$length = _String_length;
@@ -5657,7 +5657,7 @@ var $elm$core$Platform$Cmd$batch = _Platform_batch;
 var $elm$core$Platform$Cmd$none = $elm$core$Platform$Cmd$batch(_List_Nil);
 var $author$project$Main$init = _Utils_Tuple2(
 	{
-		db: 2,
+		da: 2,
 		dz: $author$project$QRTypes$QRText('')
 	},
 	$elm$core$Platform$Cmd$none);
@@ -5676,7 +5676,7 @@ var $elm$file$File$Download$bytes = F3(
 				mime,
 				_File_makeBytesSafeForInternetExplorer(content)));
 	});
-var $pablohirafuji$elm_qrcode$QRCode$defaultImageOptions = {b1: 255, cm: 4294967295, dq: 5, cD: 4};
+var $pablohirafuji$elm_qrcode$QRCode$defaultImageOptions = {c1: 255, dm: 4294967295, dq: 5, cB: 4};
 var $elm$bytes$Bytes$Encode$getWidth = function (builder) {
 	switch (builder.$) {
 		case 0:
@@ -7271,8 +7271,8 @@ var $pablohirafuji$elm_qrcode$QRCode$Matrix$timingPattern = F2(
 			range);
 	});
 var $pablohirafuji$elm_qrcode$QRCode$Matrix$apply = function (_v0) {
-	var ecLevel = _v0.a.b4;
-	var groupInfo = _v0.a.df;
+	var ecLevel = _v0.a.b3;
+	var groupInfo = _v0.a.de;
 	var bytes = _v0.b;
 	var version = groupInfo.bP;
 	var size = ((version - 1) * 4) + 21;
@@ -7543,7 +7543,7 @@ var $pablohirafuji$elm_qrcode$QRCode$Encode$charCountIndicatorLength = F2(
 	});
 var $pablohirafuji$elm_qrcode$QRCode$Encode$charCountIndicator = F2(
 	function (_v0, bits) {
-		var groupInfo = _v0.df;
+		var groupInfo = _v0.de;
 		var inputStr = _v0.bz;
 		var mode = _v0.a8;
 		var length = A2($pablohirafuji$elm_qrcode$QRCode$Encode$charCountIndicatorLength, mode, groupInfo.bP);
@@ -7569,11 +7569,11 @@ var $pablohirafuji$elm_qrcode$QRCode$Encode$addInfoAndFinalBits = function (_v0)
 		model,
 		A2(
 			$pablohirafuji$elm_qrcode$QRCode$Encode$addFiller,
-			model.df.a$,
+			model.de.a$,
 			$pablohirafuji$elm_qrcode$QRCode$Encode$bitsToBytes(
 				A3(
 					$pablohirafuji$elm_qrcode$QRCode$Encode$addTerminator,
-					model.df.a$,
+					model.de.a$,
 					model.bo,
 					A2(
 						$elm$core$List$cons,
@@ -8411,20 +8411,20 @@ var $pablohirafuji$elm_qrcode$QRCode$Encode$getErrorCorrection = function (_v0) 
 		function (c) {
 			return _Utils_Tuple3(model, dataBlocks, c);
 		},
-		A2($pablohirafuji$elm_qrcode$QRCode$ErrorCorrection$get, model.df.c9, dataBlocks));
+		A2($pablohirafuji$elm_qrcode$QRCode$ErrorCorrection$get, model.de.c8, dataBlocks));
 };
 var $pablohirafuji$elm_qrcode$QRCode$Encode$Alphanumeric = 1;
 var $pablohirafuji$elm_qrcode$QRCode$Encode$Byte = 2;
 var $pablohirafuji$elm_qrcode$QRCode$Encode$Numeric = 0;
 var $elm$regex$Regex$Match = F4(
 	function (match, index, number, submatches) {
-		return {dk: index, dn: match, dt: number, dF: submatches};
+		return {dj: index, dn: match, dt: number, dF: submatches};
 	});
 var $elm$regex$Regex$contains = _Regex_contains;
 var $elm$regex$Regex$fromStringWith = _Regex_fromStringWith;
 var $pablohirafuji$elm_qrcode$QRCode$Encode$Alphanumeric$onlyAlphanumeric = A2(
 	$elm$regex$Regex$fromStringWith,
-	{c_: false, dr: false},
+	{cY: false, dr: false},
 	'^[0-9A-Z $%*+\\-.\\/:]+$');
 var $pablohirafuji$elm_qrcode$QRCode$Encode$Alphanumeric$isValid = function (input) {
 	return A2(
@@ -8439,7 +8439,7 @@ var $pablohirafuji$elm_qrcode$QRCode$Encode$Alphanumeric$isValid = function (inp
 };
 var $pablohirafuji$elm_qrcode$QRCode$Encode$Byte$only8Bit = A2(
 	$elm$regex$Regex$fromStringWith,
-	{c_: false, dr: false},
+	{cY: false, dr: false},
 	'^[\\u0000-\\u00ff]+$');
 var $pablohirafuji$elm_qrcode$QRCode$Encode$Byte$isValid = function (input) {
 	return A2(
@@ -8454,7 +8454,7 @@ var $pablohirafuji$elm_qrcode$QRCode$Encode$Byte$isValid = function (input) {
 };
 var $pablohirafuji$elm_qrcode$QRCode$Encode$Numeric$onlyNumber = A2(
 	$elm$regex$Regex$fromStringWith,
-	{c_: false, dr: false},
+	{cY: false, dr: false},
 	'^[0-9]+$');
 var $pablohirafuji$elm_qrcode$QRCode$Encode$Numeric$isValid = function (input) {
 	return A2(
@@ -8497,8 +8497,8 @@ var $pablohirafuji$elm_qrcode$QRCode$GroupInfo$newGroupInfo = F4(
 	function (version, ecPerBlock, group1, maybeGroup2) {
 		return {
 			a$: A2($pablohirafuji$elm_qrcode$QRCode$GroupInfo$byteCapacity, group1, maybeGroup2) * 8,
-			c9: ecPerBlock,
-			cb: group1,
+			c8: ecPerBlock,
+			ca: group1,
 			$7: maybeGroup2,
 			bP: version
 		};
@@ -9636,8 +9636,8 @@ var $pablohirafuji$elm_qrcode$QRCode$Encode$versionToModel = F5(
 	function (inputStr, ecLevel, mode, partialBitsCount, groupInfo) {
 		return {
 			bo: partialBitsCount + A2($pablohirafuji$elm_qrcode$QRCode$Encode$charCountIndicatorLength, mode, groupInfo.bP),
-			b4: ecLevel,
-			df: groupInfo,
+			b3: ecLevel,
+			de: groupInfo,
 			bz: inputStr,
 			a8: mode
 		};
@@ -9694,7 +9694,7 @@ var $pablohirafuji$elm_qrcode$QRCode$Encode$breakList = F3(
 	});
 var $pablohirafuji$elm_qrcode$QRCode$Encode$toBlocks = function (_v0) {
 	var model = _v0.a;
-	var groupInfo = model.df;
+	var groupInfo = model.de;
 	var byteList = _v0.b;
 	var _v1 = groupInfo.$7;
 	if (!_v1.$) {
@@ -9713,7 +9713,7 @@ var $pablohirafuji$elm_qrcode$QRCode$Encode$toBlocks = function (_v0) {
 					A3(
 						$pablohirafuji$elm_qrcode$QRCode$Encode$breakList,
 						false,
-						groupInfo.cb,
+						groupInfo.ca,
 						_Utils_Tuple2(byteList, _List_Nil)))));
 	} else {
 		return A2(
@@ -9727,7 +9727,7 @@ var $pablohirafuji$elm_qrcode$QRCode$Encode$toBlocks = function (_v0) {
 				A3(
 					$pablohirafuji$elm_qrcode$QRCode$Encode$breakList,
 					true,
-					groupInfo.cb,
+					groupInfo.ca,
 					_Utils_Tuple2(byteList, _List_Nil))));
 	}
 };
@@ -9775,7 +9775,7 @@ var $pablohirafuji$elm_qrcode$QRCode$fromStringWith = F2(
 					return A2(
 						$elm$core$Result$map,
 						function (matrix) {
-							return {aP: matrix, bP: encodeModel.df.bP};
+							return {aP: matrix, bP: encodeModel.de.bP};
 						},
 						$pablohirafuji$elm_qrcode$QRCode$Matrix$apply(
 							_Utils_Tuple2(encodeModel, encodedData)));
@@ -9827,8 +9827,8 @@ var $justgook$elm_image$Image$fromList2d = function (l) {
 		$justgook$elm_image$Image$Info$FromData(
 			{
 				a1: $justgook$elm_image$Image$Info$FromDataChannel4(3),
-				cc: $elm$core$List$length(l),
-				cQ: A2(
+				cb: $elm$core$List$length(l),
+				cO: A2(
 					$elm$core$Maybe$withDefault,
 					0,
 					A2(
@@ -9840,7 +9840,7 @@ var $justgook$elm_image$Image$fromList2d = function (l) {
 };
 var $pablohirafuji$elm_qrcode$QRCode$Render$Raster$moduleToPixel = F2(
 	function (options, isDark) {
-		return isDark ? options.b1 : options.cm;
+		return isDark ? options.c1 : options.dm;
 	});
 var $pablohirafuji$elm_qrcode$QRCode$Render$Raster$toImageWithOptions = F2(
 	function (options, matrix) {
@@ -9860,7 +9860,7 @@ var $pablohirafuji$elm_qrcode$QRCode$Render$Raster$toImageWithOptions = F2(
 							$elm$core$Basics$composeR,
 							$elm$core$List$concat,
 							$elm$core$List$repeat(moduleSize))),
-					A2($pablohirafuji$elm_qrcode$QRCode$Render$Raster$addQuietZone, options.cD, matrix))));
+					A2($pablohirafuji$elm_qrcode$QRCode$Render$Raster$addQuietZone, options.cB, matrix))));
 	});
 var $pablohirafuji$elm_qrcode$QRCode$toImageWithOptions = F2(
 	function (config, _v0) {
@@ -9869,7 +9869,7 @@ var $pablohirafuji$elm_qrcode$QRCode$toImageWithOptions = F2(
 	});
 var $justgook$elm_image$Image$Internal$ImageData$RGBA = 0;
 var $justgook$elm_image$Image$Internal$ImageData$RightDown = 0;
-var $justgook$elm_image$Image$Internal$ImageData$defaultOptions = {b9: 0, cu: 0};
+var $justgook$elm_image$Image$Internal$ImageData$defaultOptions = {b8: 0, cs: 0};
 var $elm$bytes$Bytes$BE = 1;
 var $elm$bytes$Bytes$Encode$Bytes = function (a) {
 	return {$: 10, a: a};
@@ -10069,7 +10069,7 @@ var $folkertdev$elm_flate$Flate$Dynamic = function (a) {
 var $folkertdev$elm_flate$Flate$WithWindowSize = function (a) {
 	return {$: 1, a: a};
 };
-var $folkertdev$elm_flate$Checksum$Adler32$a32 = {bn: 65521, cs: 5552};
+var $folkertdev$elm_flate$Checksum$Adler32$a32 = {bn: 65521, cq: 5552};
 var $folkertdev$elm_flate$Checksum$Adler32$step8Bytes = F5(
 	function (remaining, s1, s2, word1, word2) {
 		var byte8 = 255 & word2;
@@ -10122,7 +10122,7 @@ var $folkertdev$elm_flate$Checksum$Adler32$processChunk = function (config) {
 };
 var $folkertdev$elm_flate$Checksum$Adler32$chunkedFold = function (_v0) {
 	var bufferSize = _v0.bY;
-	var maxBlockSize = _v0.co;
+	var maxBlockSize = _v0.cm;
 	var go = function (_v1) {
 		var remainingLength = _v1.bI;
 		var s1 = _v1.v;
@@ -10153,7 +10153,7 @@ var $folkertdev$elm_flate$Checksum$Adler32$adler32 = function (buffer) {
 		$folkertdev$elm_flate$Checksum$Adler32$chunkedFold(
 			{
 				bY: $elm$bytes$Bytes$width(buffer),
-				co: $folkertdev$elm_flate$Checksum$Adler32$a32.cs
+				cm: $folkertdev$elm_flate$Checksum$Adler32$a32.cq
 			}),
 		buffer);
 	if (_v0.$ === 1) {
@@ -10849,7 +10849,7 @@ var $folkertdev$elm_flate$Huffman$new = function (n) {
 		$elm$core$Array$repeat,
 		n,
 		$folkertdev$elm_flate$Huffman$codeFromRecord(
-			{a: 0, cQ: 0}));
+			{a: 0, cO: 0}));
 };
 var $folkertdev$elm_flate$Huffman$inverseEndianLoop = F4(
 	function (i, limit, f, t) {
@@ -10871,10 +10871,10 @@ var $folkertdev$elm_flate$Huffman$inverseEndianLoop = F4(
 		}
 	});
 var $folkertdev$elm_flate$Huffman$inverseEndian = function (_v0) {
-	var width = _v0.cQ;
+	var width = _v0.cO;
 	var bits = _v0.a;
 	var inverseBits = A4($folkertdev$elm_flate$Huffman$inverseEndianLoop, 0, width, bits, 0);
-	return {a: inverseBits, cQ: width};
+	return {a: inverseBits, cO: width};
 };
 var $folkertdev$elm_flate$Huffman$setMapping = F3(
 	function (symbol, code, _v0) {
@@ -10911,7 +10911,7 @@ var $folkertdev$elm_flate$Huffman$restoreCanonicalHuffmanCodes = F2(
 				var prevWidth = _v2.b;
 				var currentTree = _v2.c;
 				var newBits = code << (bitWidth - prevWidth);
-				var nextCode = {a: newBits, cQ: bitWidth};
+				var nextCode = {a: newBits, cO: bitWidth};
 				return _Utils_Tuple3(
 					newBits + 1,
 					bitWidth,
@@ -11713,7 +11713,7 @@ var $folkertdev$elm_flate$Huffman$encode = F2(
 		if (_v1.$ === 1) {
 			return A2($folkertdev$elm_flate$Deflate$BitWriter$writeBits, 0, 0);
 		} else {
-			var width = _v1.a.cQ;
+			var width = _v1.a.cO;
 			var bits = _v1.a.a;
 			return A2($folkertdev$elm_flate$Deflate$BitWriter$writeBits, width, bits);
 		}
@@ -11853,7 +11853,7 @@ var $folkertdev$elm_flate$Deflate$Symbol$calculateCodes = function (runLengths) 
 	return A3($elm$core$Array$foldl, folder, $elm$core$Array$empty, runLengths);
 };
 var $folkertdev$elm_flate$Huffman$getWidth = function (_v0) {
-	var width = _v0.cQ;
+	var width = _v0.cO;
 	return width;
 };
 var $folkertdev$elm_flate$Huffman$lookup = F2(
@@ -11992,7 +11992,7 @@ var $folkertdev$elm_flate$Huffman$usedMaxSymbol = function (_v0) {
 			$folkertdev$elm_flate$Huffman$positionFromTheEnd,
 			function (_v1) {
 				var value = _v1;
-				return value.cQ > 0;
+				return value.cO > 0;
 			},
 			array));
 };
@@ -12499,328 +12499,328 @@ var $folkertdev$elm_flate$Huffman$hardcodedStaticHuffmanTree = {
 	Z: $folkertdev$elm_flate$Huffman$fromList(
 		_List_fromArray(
 			[
-				{a: 0, cQ: 5},
-				{a: 16, cQ: 5},
-				{a: 8, cQ: 5},
-				{a: 24, cQ: 5},
-				{a: 4, cQ: 5},
-				{a: 20, cQ: 5},
-				{a: 12, cQ: 5},
-				{a: 28, cQ: 5},
-				{a: 2, cQ: 5},
-				{a: 18, cQ: 5},
-				{a: 10, cQ: 5},
-				{a: 26, cQ: 5},
-				{a: 6, cQ: 5},
-				{a: 22, cQ: 5},
-				{a: 14, cQ: 5},
-				{a: 30, cQ: 5},
-				{a: 1, cQ: 5},
-				{a: 17, cQ: 5},
-				{a: 9, cQ: 5},
-				{a: 25, cQ: 5},
-				{a: 5, cQ: 5},
-				{a: 21, cQ: 5},
-				{a: 13, cQ: 5},
-				{a: 29, cQ: 5},
-				{a: 3, cQ: 5},
-				{a: 19, cQ: 5},
-				{a: 11, cQ: 5},
-				{a: 27, cQ: 5},
-				{a: 7, cQ: 5},
-				{a: 23, cQ: 5}
+				{a: 0, cO: 5},
+				{a: 16, cO: 5},
+				{a: 8, cO: 5},
+				{a: 24, cO: 5},
+				{a: 4, cO: 5},
+				{a: 20, cO: 5},
+				{a: 12, cO: 5},
+				{a: 28, cO: 5},
+				{a: 2, cO: 5},
+				{a: 18, cO: 5},
+				{a: 10, cO: 5},
+				{a: 26, cO: 5},
+				{a: 6, cO: 5},
+				{a: 22, cO: 5},
+				{a: 14, cO: 5},
+				{a: 30, cO: 5},
+				{a: 1, cO: 5},
+				{a: 17, cO: 5},
+				{a: 9, cO: 5},
+				{a: 25, cO: 5},
+				{a: 5, cO: 5},
+				{a: 21, cO: 5},
+				{a: 13, cO: 5},
+				{a: 29, cO: 5},
+				{a: 3, cO: 5},
+				{a: 19, cO: 5},
+				{a: 11, cO: 5},
+				{a: 27, cO: 5},
+				{a: 7, cO: 5},
+				{a: 23, cO: 5}
 			])),
 	ad: $folkertdev$elm_flate$Huffman$fromList(
 		_List_fromArray(
 			[
-				{a: 12, cQ: 8},
-				{a: 140, cQ: 8},
-				{a: 76, cQ: 8},
-				{a: 204, cQ: 8},
-				{a: 44, cQ: 8},
-				{a: 172, cQ: 8},
-				{a: 108, cQ: 8},
-				{a: 236, cQ: 8},
-				{a: 28, cQ: 8},
-				{a: 156, cQ: 8},
-				{a: 92, cQ: 8},
-				{a: 220, cQ: 8},
-				{a: 60, cQ: 8},
-				{a: 188, cQ: 8},
-				{a: 124, cQ: 8},
-				{a: 252, cQ: 8},
-				{a: 2, cQ: 8},
-				{a: 130, cQ: 8},
-				{a: 66, cQ: 8},
-				{a: 194, cQ: 8},
-				{a: 34, cQ: 8},
-				{a: 162, cQ: 8},
-				{a: 98, cQ: 8},
-				{a: 226, cQ: 8},
-				{a: 18, cQ: 8},
-				{a: 146, cQ: 8},
-				{a: 82, cQ: 8},
-				{a: 210, cQ: 8},
-				{a: 50, cQ: 8},
-				{a: 178, cQ: 8},
-				{a: 114, cQ: 8},
-				{a: 242, cQ: 8},
-				{a: 10, cQ: 8},
-				{a: 138, cQ: 8},
-				{a: 74, cQ: 8},
-				{a: 202, cQ: 8},
-				{a: 42, cQ: 8},
-				{a: 170, cQ: 8},
-				{a: 106, cQ: 8},
-				{a: 234, cQ: 8},
-				{a: 26, cQ: 8},
-				{a: 154, cQ: 8},
-				{a: 90, cQ: 8},
-				{a: 218, cQ: 8},
-				{a: 58, cQ: 8},
-				{a: 186, cQ: 8},
-				{a: 122, cQ: 8},
-				{a: 250, cQ: 8},
-				{a: 6, cQ: 8},
-				{a: 134, cQ: 8},
-				{a: 70, cQ: 8},
-				{a: 198, cQ: 8},
-				{a: 38, cQ: 8},
-				{a: 166, cQ: 8},
-				{a: 102, cQ: 8},
-				{a: 230, cQ: 8},
-				{a: 22, cQ: 8},
-				{a: 150, cQ: 8},
-				{a: 86, cQ: 8},
-				{a: 214, cQ: 8},
-				{a: 54, cQ: 8},
-				{a: 182, cQ: 8},
-				{a: 118, cQ: 8},
-				{a: 246, cQ: 8},
-				{a: 14, cQ: 8},
-				{a: 142, cQ: 8},
-				{a: 78, cQ: 8},
-				{a: 206, cQ: 8},
-				{a: 46, cQ: 8},
-				{a: 174, cQ: 8},
-				{a: 110, cQ: 8},
-				{a: 238, cQ: 8},
-				{a: 30, cQ: 8},
-				{a: 158, cQ: 8},
-				{a: 94, cQ: 8},
-				{a: 222, cQ: 8},
-				{a: 62, cQ: 8},
-				{a: 190, cQ: 8},
-				{a: 126, cQ: 8},
-				{a: 254, cQ: 8},
-				{a: 1, cQ: 8},
-				{a: 129, cQ: 8},
-				{a: 65, cQ: 8},
-				{a: 193, cQ: 8},
-				{a: 33, cQ: 8},
-				{a: 161, cQ: 8},
-				{a: 97, cQ: 8},
-				{a: 225, cQ: 8},
-				{a: 17, cQ: 8},
-				{a: 145, cQ: 8},
-				{a: 81, cQ: 8},
-				{a: 209, cQ: 8},
-				{a: 49, cQ: 8},
-				{a: 177, cQ: 8},
-				{a: 113, cQ: 8},
-				{a: 241, cQ: 8},
-				{a: 9, cQ: 8},
-				{a: 137, cQ: 8},
-				{a: 73, cQ: 8},
-				{a: 201, cQ: 8},
-				{a: 41, cQ: 8},
-				{a: 169, cQ: 8},
-				{a: 105, cQ: 8},
-				{a: 233, cQ: 8},
-				{a: 25, cQ: 8},
-				{a: 153, cQ: 8},
-				{a: 89, cQ: 8},
-				{a: 217, cQ: 8},
-				{a: 57, cQ: 8},
-				{a: 185, cQ: 8},
-				{a: 121, cQ: 8},
-				{a: 249, cQ: 8},
-				{a: 5, cQ: 8},
-				{a: 133, cQ: 8},
-				{a: 69, cQ: 8},
-				{a: 197, cQ: 8},
-				{a: 37, cQ: 8},
-				{a: 165, cQ: 8},
-				{a: 101, cQ: 8},
-				{a: 229, cQ: 8},
-				{a: 21, cQ: 8},
-				{a: 149, cQ: 8},
-				{a: 85, cQ: 8},
-				{a: 213, cQ: 8},
-				{a: 53, cQ: 8},
-				{a: 181, cQ: 8},
-				{a: 117, cQ: 8},
-				{a: 245, cQ: 8},
-				{a: 13, cQ: 8},
-				{a: 141, cQ: 8},
-				{a: 77, cQ: 8},
-				{a: 205, cQ: 8},
-				{a: 45, cQ: 8},
-				{a: 173, cQ: 8},
-				{a: 109, cQ: 8},
-				{a: 237, cQ: 8},
-				{a: 29, cQ: 8},
-				{a: 157, cQ: 8},
-				{a: 93, cQ: 8},
-				{a: 221, cQ: 8},
-				{a: 61, cQ: 8},
-				{a: 189, cQ: 8},
-				{a: 125, cQ: 8},
-				{a: 253, cQ: 8},
-				{a: 19, cQ: 9},
-				{a: 275, cQ: 9},
-				{a: 147, cQ: 9},
-				{a: 403, cQ: 9},
-				{a: 83, cQ: 9},
-				{a: 339, cQ: 9},
-				{a: 211, cQ: 9},
-				{a: 467, cQ: 9},
-				{a: 51, cQ: 9},
-				{a: 307, cQ: 9},
-				{a: 179, cQ: 9},
-				{a: 435, cQ: 9},
-				{a: 115, cQ: 9},
-				{a: 371, cQ: 9},
-				{a: 243, cQ: 9},
-				{a: 499, cQ: 9},
-				{a: 11, cQ: 9},
-				{a: 267, cQ: 9},
-				{a: 139, cQ: 9},
-				{a: 395, cQ: 9},
-				{a: 75, cQ: 9},
-				{a: 331, cQ: 9},
-				{a: 203, cQ: 9},
-				{a: 459, cQ: 9},
-				{a: 43, cQ: 9},
-				{a: 299, cQ: 9},
-				{a: 171, cQ: 9},
-				{a: 427, cQ: 9},
-				{a: 107, cQ: 9},
-				{a: 363, cQ: 9},
-				{a: 235, cQ: 9},
-				{a: 491, cQ: 9},
-				{a: 27, cQ: 9},
-				{a: 283, cQ: 9},
-				{a: 155, cQ: 9},
-				{a: 411, cQ: 9},
-				{a: 91, cQ: 9},
-				{a: 347, cQ: 9},
-				{a: 219, cQ: 9},
-				{a: 475, cQ: 9},
-				{a: 59, cQ: 9},
-				{a: 315, cQ: 9},
-				{a: 187, cQ: 9},
-				{a: 443, cQ: 9},
-				{a: 123, cQ: 9},
-				{a: 379, cQ: 9},
-				{a: 251, cQ: 9},
-				{a: 507, cQ: 9},
-				{a: 7, cQ: 9},
-				{a: 263, cQ: 9},
-				{a: 135, cQ: 9},
-				{a: 391, cQ: 9},
-				{a: 71, cQ: 9},
-				{a: 327, cQ: 9},
-				{a: 199, cQ: 9},
-				{a: 455, cQ: 9},
-				{a: 39, cQ: 9},
-				{a: 295, cQ: 9},
-				{a: 167, cQ: 9},
-				{a: 423, cQ: 9},
-				{a: 103, cQ: 9},
-				{a: 359, cQ: 9},
-				{a: 231, cQ: 9},
-				{a: 487, cQ: 9},
-				{a: 23, cQ: 9},
-				{a: 279, cQ: 9},
-				{a: 151, cQ: 9},
-				{a: 407, cQ: 9},
-				{a: 87, cQ: 9},
-				{a: 343, cQ: 9},
-				{a: 215, cQ: 9},
-				{a: 471, cQ: 9},
-				{a: 55, cQ: 9},
-				{a: 311, cQ: 9},
-				{a: 183, cQ: 9},
-				{a: 439, cQ: 9},
-				{a: 119, cQ: 9},
-				{a: 375, cQ: 9},
-				{a: 247, cQ: 9},
-				{a: 503, cQ: 9},
-				{a: 15, cQ: 9},
-				{a: 271, cQ: 9},
-				{a: 143, cQ: 9},
-				{a: 399, cQ: 9},
-				{a: 79, cQ: 9},
-				{a: 335, cQ: 9},
-				{a: 207, cQ: 9},
-				{a: 463, cQ: 9},
-				{a: 47, cQ: 9},
-				{a: 303, cQ: 9},
-				{a: 175, cQ: 9},
-				{a: 431, cQ: 9},
-				{a: 111, cQ: 9},
-				{a: 367, cQ: 9},
-				{a: 239, cQ: 9},
-				{a: 495, cQ: 9},
-				{a: 31, cQ: 9},
-				{a: 287, cQ: 9},
-				{a: 159, cQ: 9},
-				{a: 415, cQ: 9},
-				{a: 95, cQ: 9},
-				{a: 351, cQ: 9},
-				{a: 223, cQ: 9},
-				{a: 479, cQ: 9},
-				{a: 63, cQ: 9},
-				{a: 319, cQ: 9},
-				{a: 191, cQ: 9},
-				{a: 447, cQ: 9},
-				{a: 127, cQ: 9},
-				{a: 383, cQ: 9},
-				{a: 255, cQ: 9},
-				{a: 511, cQ: 9},
-				{a: 0, cQ: 7},
-				{a: 64, cQ: 7},
-				{a: 32, cQ: 7},
-				{a: 96, cQ: 7},
-				{a: 16, cQ: 7},
-				{a: 80, cQ: 7},
-				{a: 48, cQ: 7},
-				{a: 112, cQ: 7},
-				{a: 8, cQ: 7},
-				{a: 72, cQ: 7},
-				{a: 40, cQ: 7},
-				{a: 104, cQ: 7},
-				{a: 24, cQ: 7},
-				{a: 88, cQ: 7},
-				{a: 56, cQ: 7},
-				{a: 120, cQ: 7},
-				{a: 4, cQ: 7},
-				{a: 68, cQ: 7},
-				{a: 36, cQ: 7},
-				{a: 100, cQ: 7},
-				{a: 20, cQ: 7},
-				{a: 84, cQ: 7},
-				{a: 52, cQ: 7},
-				{a: 116, cQ: 7},
-				{a: 3, cQ: 8},
-				{a: 131, cQ: 8},
-				{a: 67, cQ: 8},
-				{a: 195, cQ: 8},
-				{a: 35, cQ: 8},
-				{a: 163, cQ: 8},
-				{a: 99, cQ: 8},
-				{a: 227, cQ: 8}
+				{a: 12, cO: 8},
+				{a: 140, cO: 8},
+				{a: 76, cO: 8},
+				{a: 204, cO: 8},
+				{a: 44, cO: 8},
+				{a: 172, cO: 8},
+				{a: 108, cO: 8},
+				{a: 236, cO: 8},
+				{a: 28, cO: 8},
+				{a: 156, cO: 8},
+				{a: 92, cO: 8},
+				{a: 220, cO: 8},
+				{a: 60, cO: 8},
+				{a: 188, cO: 8},
+				{a: 124, cO: 8},
+				{a: 252, cO: 8},
+				{a: 2, cO: 8},
+				{a: 130, cO: 8},
+				{a: 66, cO: 8},
+				{a: 194, cO: 8},
+				{a: 34, cO: 8},
+				{a: 162, cO: 8},
+				{a: 98, cO: 8},
+				{a: 226, cO: 8},
+				{a: 18, cO: 8},
+				{a: 146, cO: 8},
+				{a: 82, cO: 8},
+				{a: 210, cO: 8},
+				{a: 50, cO: 8},
+				{a: 178, cO: 8},
+				{a: 114, cO: 8},
+				{a: 242, cO: 8},
+				{a: 10, cO: 8},
+				{a: 138, cO: 8},
+				{a: 74, cO: 8},
+				{a: 202, cO: 8},
+				{a: 42, cO: 8},
+				{a: 170, cO: 8},
+				{a: 106, cO: 8},
+				{a: 234, cO: 8},
+				{a: 26, cO: 8},
+				{a: 154, cO: 8},
+				{a: 90, cO: 8},
+				{a: 218, cO: 8},
+				{a: 58, cO: 8},
+				{a: 186, cO: 8},
+				{a: 122, cO: 8},
+				{a: 250, cO: 8},
+				{a: 6, cO: 8},
+				{a: 134, cO: 8},
+				{a: 70, cO: 8},
+				{a: 198, cO: 8},
+				{a: 38, cO: 8},
+				{a: 166, cO: 8},
+				{a: 102, cO: 8},
+				{a: 230, cO: 8},
+				{a: 22, cO: 8},
+				{a: 150, cO: 8},
+				{a: 86, cO: 8},
+				{a: 214, cO: 8},
+				{a: 54, cO: 8},
+				{a: 182, cO: 8},
+				{a: 118, cO: 8},
+				{a: 246, cO: 8},
+				{a: 14, cO: 8},
+				{a: 142, cO: 8},
+				{a: 78, cO: 8},
+				{a: 206, cO: 8},
+				{a: 46, cO: 8},
+				{a: 174, cO: 8},
+				{a: 110, cO: 8},
+				{a: 238, cO: 8},
+				{a: 30, cO: 8},
+				{a: 158, cO: 8},
+				{a: 94, cO: 8},
+				{a: 222, cO: 8},
+				{a: 62, cO: 8},
+				{a: 190, cO: 8},
+				{a: 126, cO: 8},
+				{a: 254, cO: 8},
+				{a: 1, cO: 8},
+				{a: 129, cO: 8},
+				{a: 65, cO: 8},
+				{a: 193, cO: 8},
+				{a: 33, cO: 8},
+				{a: 161, cO: 8},
+				{a: 97, cO: 8},
+				{a: 225, cO: 8},
+				{a: 17, cO: 8},
+				{a: 145, cO: 8},
+				{a: 81, cO: 8},
+				{a: 209, cO: 8},
+				{a: 49, cO: 8},
+				{a: 177, cO: 8},
+				{a: 113, cO: 8},
+				{a: 241, cO: 8},
+				{a: 9, cO: 8},
+				{a: 137, cO: 8},
+				{a: 73, cO: 8},
+				{a: 201, cO: 8},
+				{a: 41, cO: 8},
+				{a: 169, cO: 8},
+				{a: 105, cO: 8},
+				{a: 233, cO: 8},
+				{a: 25, cO: 8},
+				{a: 153, cO: 8},
+				{a: 89, cO: 8},
+				{a: 217, cO: 8},
+				{a: 57, cO: 8},
+				{a: 185, cO: 8},
+				{a: 121, cO: 8},
+				{a: 249, cO: 8},
+				{a: 5, cO: 8},
+				{a: 133, cO: 8},
+				{a: 69, cO: 8},
+				{a: 197, cO: 8},
+				{a: 37, cO: 8},
+				{a: 165, cO: 8},
+				{a: 101, cO: 8},
+				{a: 229, cO: 8},
+				{a: 21, cO: 8},
+				{a: 149, cO: 8},
+				{a: 85, cO: 8},
+				{a: 213, cO: 8},
+				{a: 53, cO: 8},
+				{a: 181, cO: 8},
+				{a: 117, cO: 8},
+				{a: 245, cO: 8},
+				{a: 13, cO: 8},
+				{a: 141, cO: 8},
+				{a: 77, cO: 8},
+				{a: 205, cO: 8},
+				{a: 45, cO: 8},
+				{a: 173, cO: 8},
+				{a: 109, cO: 8},
+				{a: 237, cO: 8},
+				{a: 29, cO: 8},
+				{a: 157, cO: 8},
+				{a: 93, cO: 8},
+				{a: 221, cO: 8},
+				{a: 61, cO: 8},
+				{a: 189, cO: 8},
+				{a: 125, cO: 8},
+				{a: 253, cO: 8},
+				{a: 19, cO: 9},
+				{a: 275, cO: 9},
+				{a: 147, cO: 9},
+				{a: 403, cO: 9},
+				{a: 83, cO: 9},
+				{a: 339, cO: 9},
+				{a: 211, cO: 9},
+				{a: 467, cO: 9},
+				{a: 51, cO: 9},
+				{a: 307, cO: 9},
+				{a: 179, cO: 9},
+				{a: 435, cO: 9},
+				{a: 115, cO: 9},
+				{a: 371, cO: 9},
+				{a: 243, cO: 9},
+				{a: 499, cO: 9},
+				{a: 11, cO: 9},
+				{a: 267, cO: 9},
+				{a: 139, cO: 9},
+				{a: 395, cO: 9},
+				{a: 75, cO: 9},
+				{a: 331, cO: 9},
+				{a: 203, cO: 9},
+				{a: 459, cO: 9},
+				{a: 43, cO: 9},
+				{a: 299, cO: 9},
+				{a: 171, cO: 9},
+				{a: 427, cO: 9},
+				{a: 107, cO: 9},
+				{a: 363, cO: 9},
+				{a: 235, cO: 9},
+				{a: 491, cO: 9},
+				{a: 27, cO: 9},
+				{a: 283, cO: 9},
+				{a: 155, cO: 9},
+				{a: 411, cO: 9},
+				{a: 91, cO: 9},
+				{a: 347, cO: 9},
+				{a: 219, cO: 9},
+				{a: 475, cO: 9},
+				{a: 59, cO: 9},
+				{a: 315, cO: 9},
+				{a: 187, cO: 9},
+				{a: 443, cO: 9},
+				{a: 123, cO: 9},
+				{a: 379, cO: 9},
+				{a: 251, cO: 9},
+				{a: 507, cO: 9},
+				{a: 7, cO: 9},
+				{a: 263, cO: 9},
+				{a: 135, cO: 9},
+				{a: 391, cO: 9},
+				{a: 71, cO: 9},
+				{a: 327, cO: 9},
+				{a: 199, cO: 9},
+				{a: 455, cO: 9},
+				{a: 39, cO: 9},
+				{a: 295, cO: 9},
+				{a: 167, cO: 9},
+				{a: 423, cO: 9},
+				{a: 103, cO: 9},
+				{a: 359, cO: 9},
+				{a: 231, cO: 9},
+				{a: 487, cO: 9},
+				{a: 23, cO: 9},
+				{a: 279, cO: 9},
+				{a: 151, cO: 9},
+				{a: 407, cO: 9},
+				{a: 87, cO: 9},
+				{a: 343, cO: 9},
+				{a: 215, cO: 9},
+				{a: 471, cO: 9},
+				{a: 55, cO: 9},
+				{a: 311, cO: 9},
+				{a: 183, cO: 9},
+				{a: 439, cO: 9},
+				{a: 119, cO: 9},
+				{a: 375, cO: 9},
+				{a: 247, cO: 9},
+				{a: 503, cO: 9},
+				{a: 15, cO: 9},
+				{a: 271, cO: 9},
+				{a: 143, cO: 9},
+				{a: 399, cO: 9},
+				{a: 79, cO: 9},
+				{a: 335, cO: 9},
+				{a: 207, cO: 9},
+				{a: 463, cO: 9},
+				{a: 47, cO: 9},
+				{a: 303, cO: 9},
+				{a: 175, cO: 9},
+				{a: 431, cO: 9},
+				{a: 111, cO: 9},
+				{a: 367, cO: 9},
+				{a: 239, cO: 9},
+				{a: 495, cO: 9},
+				{a: 31, cO: 9},
+				{a: 287, cO: 9},
+				{a: 159, cO: 9},
+				{a: 415, cO: 9},
+				{a: 95, cO: 9},
+				{a: 351, cO: 9},
+				{a: 223, cO: 9},
+				{a: 479, cO: 9},
+				{a: 63, cO: 9},
+				{a: 319, cO: 9},
+				{a: 191, cO: 9},
+				{a: 447, cO: 9},
+				{a: 127, cO: 9},
+				{a: 383, cO: 9},
+				{a: 255, cO: 9},
+				{a: 511, cO: 9},
+				{a: 0, cO: 7},
+				{a: 64, cO: 7},
+				{a: 32, cO: 7},
+				{a: 96, cO: 7},
+				{a: 16, cO: 7},
+				{a: 80, cO: 7},
+				{a: 48, cO: 7},
+				{a: 112, cO: 7},
+				{a: 8, cO: 7},
+				{a: 72, cO: 7},
+				{a: 40, cO: 7},
+				{a: 104, cO: 7},
+				{a: 24, cO: 7},
+				{a: 88, cO: 7},
+				{a: 56, cO: 7},
+				{a: 120, cO: 7},
+				{a: 4, cO: 7},
+				{a: 68, cO: 7},
+				{a: 36, cO: 7},
+				{a: 100, cO: 7},
+				{a: 20, cO: 7},
+				{a: 84, cO: 7},
+				{a: 52, cO: 7},
+				{a: 116, cO: 7},
+				{a: 3, cO: 8},
+				{a: 131, cO: 8},
+				{a: 67, cO: 8},
+				{a: 195, cO: 8},
+				{a: 35, cO: 8},
+				{a: 163, cO: 8},
+				{a: 99, cO: 8},
+				{a: 227, cO: 8}
 			]))
 };
 var $folkertdev$elm_flate$Deflate$Internal$encodeCompressStatic = F3(
@@ -12980,7 +12980,7 @@ var $justgook$elm_image$Image$Internal$PNG$encodePixel32 = F2(
 	});
 var $justgook$elm_image$Image$Internal$PNG$encodeIDAT = F2(
 	function (_v0, arr) {
-		var order = _v0.cu;
+		var order = _v0.cs;
 		var scanLineFilter = $elm$bytes$Bytes$Encode$unsignedInt8(1);
 		var _v1 = function () {
 			switch (order) {
@@ -13031,7 +13031,7 @@ var $justgook$elm_image$Image$Internal$PNG$encodeIDAT = F2(
 	});
 var $justgook$elm_image$Image$Internal$PNG$encodeIHDR = F3(
 	function (width, height, _v0) {
-		var format = _v0.b9;
+		var format = _v0.b8;
 		var interlace = 0;
 		var _v1 = function () {
 			switch (format) {
@@ -13074,21 +13074,21 @@ var $justgook$elm_image$Image$Internal$PNG$encodeSignature = $elm$bytes$Bytes$En
 var $justgook$elm_image$Image$Info$dimensions = function (meta) {
 	switch (meta.$) {
 		case 0:
-			var width = meta.a.cQ;
-			var height = meta.a.cc;
-			return {cc: height, cQ: width};
+			var width = meta.a.cO;
+			var height = meta.a.cb;
+			return {cb: height, cO: width};
 		case 1:
-			var width = meta.a.cQ;
-			var height = meta.a.cc;
-			return {cc: height, cQ: width};
+			var width = meta.a.cO;
+			var height = meta.a.cb;
+			return {cb: height, cO: width};
 		case 2:
-			var width = meta.a.cQ;
-			var height = meta.a.cc;
-			return {cc: height, cQ: width};
+			var width = meta.a.cO;
+			var height = meta.a.cb;
+			return {cb: height, cO: width};
 		default:
-			var width = meta.a.cQ;
-			var height = meta.a.cc;
-			return {cc: height, cQ: width};
+			var width = meta.a.cO;
+			var height = meta.a.cb;
+			return {cb: height, cO: width};
 	}
 };
 var $justgook$elm_image$Image$Internal$ImageData$splitAt = F2(
@@ -13208,7 +13208,7 @@ var $justgook$elm_image$Image$Internal$ImageData$toArray2d = function (image) {
 				var l = image.b;
 				return A3(
 					$justgook$elm_image$Image$Internal$ImageData$fromList,
-					$justgook$elm_image$Image$Info$dimensions(meta).cQ,
+					$justgook$elm_image$Image$Info$dimensions(meta).cO,
 					l,
 					$elm$core$Array$fromList(
 						_List_fromArray(
@@ -13225,7 +13225,7 @@ var $justgook$elm_image$Image$Internal$ImageData$toArray2d = function (image) {
 				var arr = image.b;
 				return A3(
 					$justgook$elm_image$Image$Internal$ImageData$fromArray,
-					$justgook$elm_image$Image$Info$dimensions(meta).cQ,
+					$justgook$elm_image$Image$Info$dimensions(meta).cO,
 					arr,
 					$elm$core$Array$empty);
 			case 3:
@@ -13409,7 +13409,7 @@ var $justgook$elm_image$Image$Internal$Pixel$toBit32 = function (image) {
 					return image;
 			}
 		case 1:
-			var bitsPerPixel = _v0.a.cY;
+			var bitsPerPixel = _v0.a.cW;
 			switch (bitsPerPixel) {
 				case 0:
 					return A2($justgook$elm_image$Image$Internal$ImageData$map, $justgook$elm_image$Image$Internal$Pixel$px8to32, image);
@@ -13438,25 +13438,28 @@ var $justgook$elm_image$Image$Internal$Pixel$toBit32 = function (image) {
 };
 var $justgook$elm_image$Image$Advanced$toPng32 = A2($elm$core$Basics$composeR, $justgook$elm_image$Image$Internal$Pixel$toBit32, $justgook$elm_image$Image$Internal$PNG$encode);
 var $justgook$elm_image$Image$toPng = $justgook$elm_image$Image$Advanced$toPng32;
-var $author$project$State$generateQRCodePngUrl = function (model) {
-	var _v0 = A2(
-		$pablohirafuji$elm_qrcode$QRCode$fromStringWith,
-		model.db,
-		$author$project$QRTypes$encodeQRType(model.dz));
-	if (_v0.$ === 1) {
-		return $elm$bytes$Bytes$Encode$encode(
-			$elm$bytes$Bytes$Encode$string('ERROR'));
-	} else {
-		var code = _v0.a;
-		return $justgook$elm_image$Image$toPng(
-			A2(
-				$pablohirafuji$elm_qrcode$QRCode$toImageWithOptions,
-				_Utils_update(
-					$pablohirafuji$elm_qrcode$QRCode$defaultImageOptions,
-					{dq: 10}),
-				code));
-	}
-};
+var $author$project$State$generateQRCodePngUrl = F2(
+	function (_v0, model) {
+		var fg = _v0.a;
+		var bg = _v0.b;
+		var _v1 = A2(
+			$pablohirafuji$elm_qrcode$QRCode$fromStringWith,
+			model.da,
+			$author$project$QRTypes$encodeQRType(model.dz));
+		if (_v1.$ === 1) {
+			return $elm$bytes$Bytes$Encode$encode(
+				$elm$bytes$Bytes$Encode$string('ERROR'));
+		} else {
+			var code = _v1.a;
+			return $justgook$elm_image$Image$toPng(
+				A2(
+					$pablohirafuji$elm_qrcode$QRCode$toImageWithOptions,
+					_Utils_update(
+						$pablohirafuji$elm_qrcode$QRCode$defaultImageOptions,
+						{c1: fg, dm: bg, dq: 10}),
+					code));
+		}
+	});
 var $author$project$State$update = F2(
 	function (msg, model) {
 		switch (msg.$) {
@@ -13472,16 +13475,21 @@ var $author$project$State$update = F2(
 				return _Utils_Tuple2(
 					_Utils_update(
 						model,
-						{db: ecc}),
+						{da: ecc}),
 					$elm$core$Platform$Cmd$none);
 			case 2:
+				var fg = msg.a;
+				var bg = msg.b;
 				return _Utils_Tuple2(
 					model,
 					A3(
 						$elm$file$File$Download$bytes,
 						'qrcode.png',
 						'image/png',
-						$author$project$State$generateQRCodePngUrl(model)));
+						A2(
+							$author$project$State$generateQRCodePngUrl,
+							_Utils_Tuple2(fg, bg),
+							model)));
 			default:
 				return _Utils_Tuple2(model, $elm$core$Platform$Cmd$none);
 		}
@@ -13583,8 +13591,8 @@ var $rtfeldman$elm_css$Css$Structure$compactHelp = F2(
 					A2($elm$core$List$cons, declaration, declarations));
 			case 6:
 				var record = declaration.a;
-				return $elm$core$String$isEmpty(record.c4) ? _Utils_Tuple2(keyframesByName, declarations) : _Utils_Tuple2(
-					A3($elm$core$Dict$insert, record.ds, record.c4, keyframesByName),
+				return $elm$core$String$isEmpty(record.c3) ? _Utils_Tuple2(keyframesByName, declarations) : _Utils_Tuple2(
+					A3($elm$core$Dict$insert, record.ds, record.c3, keyframesByName),
 					declarations);
 			case 7:
 				var properties = declaration.a;
@@ -13622,16 +13630,16 @@ var $rtfeldman$elm_css$Css$Structure$withKeyframeDeclarations = F2(
 					var name = _v0.a;
 					var decl = _v0.b;
 					return $rtfeldman$elm_css$Css$Structure$Keyframes(
-						{c4: decl, ds: name});
+						{c3: decl, ds: name});
 				},
 				$elm$core$Dict$toList(keyframesByName)),
 			compactedDeclarations);
 	});
 var $rtfeldman$elm_css$Css$Structure$compactStylesheet = function (_v0) {
 	var charset = _v0.b$;
-	var imports = _v0.ch;
-	var namespaces = _v0.cr;
-	var declarations = _v0.c5;
+	var imports = _v0.cg;
+	var namespaces = _v0.cp;
+	var declarations = _v0.c4;
 	var _v1 = A3(
 		$elm$core$List$foldr,
 		$rtfeldman$elm_css$Css$Structure$compactHelp,
@@ -13640,7 +13648,7 @@ var $rtfeldman$elm_css$Css$Structure$compactStylesheet = function (_v0) {
 	var keyframesByName = _v1.a;
 	var compactedDeclarations = _v1.b;
 	var finalDeclarations = A2($rtfeldman$elm_css$Css$Structure$withKeyframeDeclarations, keyframesByName, compactedDeclarations);
-	return {b$: charset, c5: finalDeclarations, ch: imports, cr: namespaces};
+	return {b$: charset, c4: finalDeclarations, cg: imports, cp: namespaces};
 };
 var $rtfeldman$elm_css$Css$Structure$Output$charsetToString = function (charset) {
 	return A2(
@@ -13654,7 +13662,7 @@ var $rtfeldman$elm_css$Css$Structure$Output$charsetToString = function (charset)
 			charset));
 };
 var $rtfeldman$elm_css$Css$Structure$Output$mediaExpressionToString = function (expression) {
-	return '(' + (expression.b8 + (A2(
+	return '(' + (expression.b7 + (A2(
 		$elm$core$Maybe$withDefault,
 		'',
 		A2(
@@ -13903,7 +13911,7 @@ var $rtfeldman$elm_css$Css$Structure$Output$prettyPrintDeclaration = function (d
 			return 'TODO';
 		case 6:
 			var name = decl.a.ds;
-			var declaration = decl.a.c4;
+			var declaration = decl.a.c3;
 			return '@keyframes ' + (name + (' {\n' + (declaration + '\n}')));
 		case 7:
 			return 'TODO';
@@ -13915,9 +13923,9 @@ var $rtfeldman$elm_css$Css$Structure$Output$prettyPrintDeclaration = function (d
 };
 var $rtfeldman$elm_css$Css$Structure$Output$prettyPrint = function (_v0) {
 	var charset = _v0.b$;
-	var imports = _v0.ch;
-	var namespaces = _v0.cr;
-	var declarations = _v0.c5;
+	var imports = _v0.cg;
+	var namespaces = _v0.cp;
+	var declarations = _v0.c4;
 	return A2(
 		$elm$core$String$join,
 		'\n\n',
@@ -14849,7 +14857,7 @@ var $rtfeldman$elm_css$Css$Preprocess$Resolve$applyStyles = F2(
 						_List_fromArray(
 							[
 								$rtfeldman$elm_css$Css$Structure$Keyframes(
-								{c4: str, ds: name})
+								{c3: str, ds: name})
 							]));
 				case 4:
 					var _v12 = styles.a;
@@ -14985,12 +14993,12 @@ var $rtfeldman$elm_css$Css$Preprocess$Resolve$toDeclarations = function (snippet
 };
 var $rtfeldman$elm_css$Css$Preprocess$Resolve$toStructure = function (_v0) {
 	var charset = _v0.b$;
-	var imports = _v0.ch;
-	var namespaces = _v0.cr;
-	var snippets = _v0.cJ;
+	var imports = _v0.cg;
+	var namespaces = _v0.cp;
+	var snippets = _v0.cH;
 	var declarations = $rtfeldman$elm_css$Css$Preprocess$Resolve$extract(
 		A2($elm$core$List$concatMap, $rtfeldman$elm_css$Css$Preprocess$unwrapSnippet, snippets));
-	return {b$: charset, c5: declarations, ch: imports, cr: namespaces};
+	return {b$: charset, c4: declarations, cg: imports, cp: namespaces};
 };
 var $rtfeldman$elm_css$Css$Preprocess$Resolve$compileHelp = function (sheet) {
 	return $rtfeldman$elm_css$Css$Structure$Output$prettyPrint(
@@ -15022,7 +15030,7 @@ var $rtfeldman$elm_css$VirtualDom$Styled$makeSnippet = F2(
 	});
 var $rtfeldman$elm_css$VirtualDom$Styled$murmurSeed = 15739;
 var $rtfeldman$elm_css$Css$Preprocess$stylesheet = function (snippets) {
-	return {b$: $elm$core$Maybe$Nothing, ch: _List_Nil, cr: _List_Nil, cJ: snippets};
+	return {b$: $elm$core$Maybe$Nothing, cg: _List_Nil, cp: _List_Nil, cH: snippets};
 };
 var $rtfeldman$elm_css$VirtualDom$Styled$getClassname = function (styles) {
 	return $elm$core$List$isEmpty(styles) ? 'unstyled' : A2(
@@ -15751,7 +15759,7 @@ var $author$project$Views$ErrorCorrectionView$qrErrorCorrectionSelect = function
 							_List_fromArray(
 								[
 									$rtfeldman$elm_css$Html$Styled$Attributes$value('low'),
-									$rtfeldman$elm_css$Html$Styled$Attributes$selected(!model.db)
+									$rtfeldman$elm_css$Html$Styled$Attributes$selected(!model.da)
 								]),
 							_List_fromArray(
 								[
@@ -15762,7 +15770,7 @@ var $author$project$Views$ErrorCorrectionView$qrErrorCorrectionSelect = function
 							_List_fromArray(
 								[
 									$rtfeldman$elm_css$Html$Styled$Attributes$value('medium'),
-									$rtfeldman$elm_css$Html$Styled$Attributes$selected(model.db === 1)
+									$rtfeldman$elm_css$Html$Styled$Attributes$selected(model.da === 1)
 								]),
 							_List_fromArray(
 								[
@@ -15773,7 +15781,7 @@ var $author$project$Views$ErrorCorrectionView$qrErrorCorrectionSelect = function
 							_List_fromArray(
 								[
 									$rtfeldman$elm_css$Html$Styled$Attributes$value('quartile'),
-									$rtfeldman$elm_css$Html$Styled$Attributes$selected(model.db === 2)
+									$rtfeldman$elm_css$Html$Styled$Attributes$selected(model.da === 2)
 								]),
 							_List_fromArray(
 								[
@@ -15784,7 +15792,7 @@ var $author$project$Views$ErrorCorrectionView$qrErrorCorrectionSelect = function
 							_List_fromArray(
 								[
 									$rtfeldman$elm_css$Html$Styled$Attributes$value('high'),
-									$rtfeldman$elm_css$Html$Styled$Attributes$selected(model.db === 3)
+									$rtfeldman$elm_css$Html$Styled$Attributes$selected(model.da === 3)
 								]),
 							_List_fromArray(
 								[
@@ -16545,7 +16553,7 @@ var $rtfeldman$elm_css$Css$Media$feature = F2(
 	function (key, _v0) {
 		var value = _v0.L;
 		return {
-			b8: key,
+			b7: key,
 			L: $elm$core$Maybe$Just(value)
 		};
 	});
@@ -16657,7 +16665,7 @@ var $rtfeldman$elm_css$Css$Global$global = function (snippets) {
 							$rtfeldman$elm_css$Css$Preprocess$stylesheet(snippets)))))));
 };
 var $rtfeldman$elm_css$Css$repeat = {ap: 0, N: 0, L: 'repeat'};
-var $rtfeldman$elm_css$Css$scroll = {aK: 0, bW: 0, cj: 0, aA: 0, dD: 0, L: 'scroll'};
+var $rtfeldman$elm_css$Css$scroll = {aK: 0, bW: 0, ci: 0, aA: 0, dD: 0, L: 'scroll'};
 var $rtfeldman$elm_css$Css$Global$selector = F2(
 	function (selectorStr, styles) {
 		return A2(
@@ -16697,7 +16705,10 @@ var $rtfeldman$elm_css$Css$justifyContent = function (fn) {
 		fn($rtfeldman$elm_css$Css$Internal$lengthForOverloadedProperty));
 };
 var $rtfeldman$elm_css$Css$marginTop = $rtfeldman$elm_css$Css$prop1('margin-top');
-var $author$project$State$DownloadQRCodeAsPNG = {$: 2};
+var $author$project$State$DownloadQRCodeAsPNG = F2(
+	function (a, b) {
+		return {$: 2, a: a, b: b};
+	});
 var $rtfeldman$elm_css$Html$Styled$button = $rtfeldman$elm_css$Html$Styled$node('button');
 var $rtfeldman$elm_css$Css$marginLeft = $rtfeldman$elm_css$Css$prop1('margin-left');
 var $rtfeldman$elm_css$Html$Styled$Events$onClick = function (msg) {
@@ -16713,7 +16724,7 @@ var $pablohirafuji$elm_qrcode$QRCode$Render$Svg$appendLastRect = function (_v0) 
 	var rowLines = _v0.b;
 	return A2(
 		$elm$core$List$cons,
-		'h' + $elm$core$String$fromInt(lastRect.cQ * $pablohirafuji$elm_qrcode$QRCode$Render$Svg$moduleSize),
+		'h' + $elm$core$String$fromInt(lastRect.cO * $pablohirafuji$elm_qrcode$QRCode$Render$Svg$moduleSize),
 		rowLines);
 };
 var $elm$core$String$concat = function (strings) {
@@ -16734,15 +16745,15 @@ var $pablohirafuji$elm_qrcode$QRCode$Render$Svg$toRowLines = F2(
 		return isDark ? ((!lastRect.ah) ? _Utils_Tuple2(
 			_Utils_update(
 				lastRect,
-				{cQ: lastRect.cQ + 1}),
+				{cO: lastRect.cO + 1}),
 			rowLines) : _Utils_Tuple2(
-			{ah: 0, cQ: 1},
+			{ah: 0, cO: 1},
 			A2(
 				$elm$core$List$cons,
 				$elm$core$String$concat(
 					_List_fromArray(
 						[
-							(lastRect.cQ > 0) ? ('h' + $elm$core$String$fromInt(lastRect.cQ * $pablohirafuji$elm_qrcode$QRCode$Render$Svg$moduleSize)) : '',
+							(lastRect.cO > 0) ? ('h' + $elm$core$String$fromInt(lastRect.cO * $pablohirafuji$elm_qrcode$QRCode$Render$Svg$moduleSize)) : '',
 							'm',
 							$elm$core$String$fromInt(lastRect.ah * $pablohirafuji$elm_qrcode$QRCode$Render$Svg$moduleSize),
 							' 0'
@@ -16811,7 +16822,7 @@ var $pablohirafuji$elm_qrcode$QRCode$Render$Svg$viewBase = F3(
 											$elm$core$List$foldl,
 											$pablohirafuji$elm_qrcode$QRCode$Render$Svg$toRowLines,
 											_Utils_Tuple2(
-												{ah: 0, cQ: 0},
+												{ah: 0, cO: 0},
 												_List_Nil)),
 										A2($elm$core$Basics$composeR, $pablohirafuji$elm_qrcode$QRCode$Render$Svg$appendLastRect, $elm$core$List$reverse)),
 									matrix)))))));
@@ -16825,7 +16836,7 @@ var $pablohirafuji$elm_qrcode$QRCode$toSvgWithoutQuietZone = F2(
 var $author$project$Views$QRImageView$qrCodeImage = function (model) {
 	var _v0 = A2(
 		$pablohirafuji$elm_qrcode$QRCode$fromStringWith,
-		model.db,
+		model.da,
 		$author$project$QRTypes$encodeQRType(model.dz));
 	if (_v0.$ === 1) {
 		return $rtfeldman$elm_css$Html$Styled$text('Something went wrong');
@@ -16876,17 +16887,37 @@ var $author$project$Views$QRImageView$qrCodeView = function (model) {
 				$rtfeldman$elm_css$Html$Styled$button,
 				_List_fromArray(
 					[
-						$rtfeldman$elm_css$Html$Styled$Events$onClick($author$project$State$DownloadQRCodeAsPNG),
+						$rtfeldman$elm_css$Html$Styled$Events$onClick(
+						A2($author$project$State$DownloadQRCodeAsPNG, 255, 4294967295)),
 						$rtfeldman$elm_css$Html$Styled$Attributes$css(
 						_List_fromArray(
 							[
 								$rtfeldman$elm_css$Css$marginTop(
-								$rtfeldman$elm_css$Css$px(12))
+								$rtfeldman$elm_css$Css$px(12)),
+								$rtfeldman$elm_css$Css$display($rtfeldman$elm_css$Css$block)
 							]))
 					]),
 				_List_fromArray(
 					[
-						$rtfeldman$elm_css$Html$Styled$text('Download PNG')
+						$rtfeldman$elm_css$Html$Styled$text('Download PNG (white background)')
+					])),
+				A2(
+				$rtfeldman$elm_css$Html$Styled$button,
+				_List_fromArray(
+					[
+						$rtfeldman$elm_css$Html$Styled$Events$onClick(
+						A2($author$project$State$DownloadQRCodeAsPNG, 255, 4294967040)),
+						$rtfeldman$elm_css$Html$Styled$Attributes$css(
+						_List_fromArray(
+							[
+								$rtfeldman$elm_css$Css$marginTop(
+								$rtfeldman$elm_css$Css$px(12)),
+								$rtfeldman$elm_css$Css$display($rtfeldman$elm_css$Css$block)
+							]))
+					]),
+				_List_fromArray(
+					[
+						$rtfeldman$elm_css$Html$Styled$text('Download PNG (transparent background)')
 					]))
 			]));
 };
@@ -17428,7 +17459,7 @@ var $rtfeldman$elm_css$VirtualDom$Styled$toUnstyled = function (vdom) {
 var $rtfeldman$elm_css$Html$Styled$toUnstyled = $rtfeldman$elm_css$VirtualDom$Styled$toUnstyled;
 var $author$project$Main$view = function (model) {
 	return {
-		cZ: _List_fromArray(
+		cX: _List_fromArray(
 			[
 				$rtfeldman$elm_css$Html$Styled$toUnstyled(
 				$author$project$Views$AppView$appView(model))
@@ -17438,7 +17469,7 @@ var $author$project$Main$view = function (model) {
 };
 var $author$project$Main$main = $elm$browser$Browser$document(
 	{
-		dl: function (_v0) {
+		dk: function (_v0) {
 			return $author$project$Main$init;
 		},
 		dG: function (_v1) {
