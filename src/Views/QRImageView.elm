@@ -24,8 +24,11 @@ qrCodeView model =
         ]
         [ qrCodeImage model
         , Html.button
-            [ onClick DownloadQRCodeAsPNG, css [ marginTop (px 12) ] ]
-            [ text "Download PNG" ]
+            [ onClick (DownloadQRCodeAsPNG 0xFF 0xFFFFFFFF), css [ marginTop (px 12), display block ] ]
+            [ text "Download PNG (white background)" ]
+        , Html.button
+            [ onClick (DownloadQRCodeAsPNG 0xFF 0xFFFFFF00), css [ marginTop (px 12), display block ] ]
+            [ text "Download PNG (transparent background)" ]
         ]
 
 
